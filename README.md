@@ -1,6 +1,6 @@
 # BrawlDex
 
-A dex bot about catching and exchanging Brawl Stars brawlers, collecting hypercharges, star powers and gadgets, and battling to earn trophies, forked from El Laggron's Ballsdex repository!
+A dex bot about catching and exchanging Brawl Stars brawlers, collecting hypercharges, star powers, gears, gadgets and skins, and battling to earn trophies, forked from El Laggron's Ballsdex repository!
 
 ## Discord Servers
 [Ballsdex official server](https://discord.gg/ballsdex)
