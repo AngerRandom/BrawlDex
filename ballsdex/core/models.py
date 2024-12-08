@@ -190,6 +190,16 @@ class Ball(models.Model):
 Ball.register_listener(signals.Signals.pre_save, lower_catch_names)
 Ball.register_listener(signals.Signals.pre_save, lower_translations)
 
+class Hypercharge(models.Model):
+   brawler: fields.ForeignKeyRelation[Ball] = fields.ForeignKeyField(
+        "models.Ball", description="The brawler of this hypercharge", on_delete=fields.CASCADE
+   name = fields.CharField(max_length=48, unique=True, description="The name of this hypercharge")
+   description = fields.CharField(max_length=256, description="The super buff description of this hypercharge")
+   speed_buff = fields.IntField(description="The percentage of the speed buff")
+   damage_buff = fields.IntField(description="The percentage of the damage buff")
+   shield_buff = fields.IntField(description="The percentage of the shield buff")
+   card_artwork = fields.CharField(max_length=200, description="The card artwork of this hypercharge")
+
 
 class BallInstance(models.Model):
     ball_id: int
