@@ -19,6 +19,8 @@ from ballsdex.core.models import (
     Regime,
     Special,
     User,
+    Hypercharge,
+    HyperchargeInstance,
 )
 
 
@@ -382,4 +384,22 @@ class BlacklistedGuildIDResource(Model):
         "discord_id",
         "reason",
         "date",
+    ]
+
+
+@app.register
+class HyperchargeResource(Model):
+    label = "Hypercharge"
+    model = Hypercharge
+    icon = "fas fa-lock"
+    page_size = 50
+    page_title = "Hypercharge"
+    filters = [
+        filters.Search(
+            name="name",
+            label="Name",
+            search_mode="icontains",
+            placeholder="Search for hypercharges",
+        ),
+        filters.ForeignKey(model=Ball, name="brawler", label="Brawler"),
     ]
