@@ -199,6 +199,8 @@ class Hypercharge(models.Model):
    damage_buff = fields.IntField(description="The percentage of the damage buff")
    shield_buff = fields.IntField(description="The percentage of the shield buff")
    card_artwork = fields.CharField(max_length=200, description="The card artwork of this hypercharge")
+   emoji = fields.BigIntField(
+        description="Emoji ID for this hypercharge", validators=[DiscordSnowflakeValidator()]
 
 
 class BallInstance(models.Model):
