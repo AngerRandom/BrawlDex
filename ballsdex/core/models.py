@@ -203,6 +203,7 @@ class Hypercharge(models.Model):
         description="Emoji ID for this hypercharge", validators=[DiscordSnowflakeValidator()]
 
 class HyperchargeInstance(models.Model):
+    brawler_info: fields.ForeignKeyRelation[Ball] = fields.ForeignKeyField("models.Ball")
     attached_brawler: fields.ForeignKeyRelation[BallInstance] = fields.ForeignKeyField("models.BallInstance")
     claim_date = fields.DateTimeField(auto_now_add=True)
 
