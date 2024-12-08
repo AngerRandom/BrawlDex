@@ -201,6 +201,9 @@ class Hypercharge(models.Model):
    card_artwork = fields.CharField(max_length=200, description="The card artwork of this hypercharge")
    emoji = fields.BigIntField(
         description="Emoji ID for this hypercharge", validators=[DiscordSnowflakeValidator()]
+   created_at = fields.DatetimeField(auto_now_add=True, null=True)
+
+   instances: fields.BackwardFKRelation[HyperchargeInstance]
 
 class HyperchargeInstance(models.Model):
     hypercharge: fields.ForeignKeyRelation[Hypercharge] = fields.ForeignKeyField("models.Hypercharge")
