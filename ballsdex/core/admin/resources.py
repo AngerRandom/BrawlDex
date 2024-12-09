@@ -405,6 +405,7 @@ class HyperchargeResource(Model):
     ]
     fields = [
         "brawler",
+        "created_at",
         "name",
         "description",
         "speed_buff",
@@ -416,8 +417,8 @@ class HyperchargeResource(Model):
             display=Emoji(),
         ),
         Field(
-            name="",
-            label="Wild card",
+            name="card_artwork",
+            label="Card artwork",
             display=displays.Image(width="40"),
             input_=inputs.Image(upload=upload, null=True),
         ),
