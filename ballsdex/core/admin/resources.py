@@ -391,7 +391,7 @@ class BlacklistedGuildIDResource(Model):
 class HyperchargeResource(Model):
     label = "Hypercharge"
     model = Hypercharge
-    icon = "fas fa-lock"
+    icon = "fa fa-bolt"
     page_size = 50
     page_title = "Hypercharge"
     filters = [
@@ -403,3 +403,22 @@ class HyperchargeResource(Model):
         ),
         filters.ForeignKey(model=Ball, name="brawler", label="Brawler"),
     ]
+    fields = [
+        "brawler",
+        "name",
+        "description",
+        "speed_buff",
+        "damage_buff",
+        "shield_buff",
+        Field(
+            name="emoji_id",
+            label="Emoji",
+            display=Emoji(),
+        ),
+        Field(
+            name="",
+            label="Wild card",
+            display=displays.Image(width="40"),
+            input_=inputs.Image(upload=upload, null=True),
+        ),
+        
