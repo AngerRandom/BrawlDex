@@ -19,16 +19,16 @@ RECTANGLE_HEIGHT = (HEIGHT // 5) * 2
 CORNERS = ((34, 261), (1393, 992))
 artwork_size = [b - a for a, b in zip(*CORNERS)]
 
-title_font = ImageFont.truetype(str(SOURCES_PATH / "ArsenicaTrial-Extrabold.ttf"), 170)
-capacity_name_font = ImageFont.truetype(str(SOURCES_PATH / "Bobby Jones Soft.otf"), 110)
-capacity_description_font = ImageFont.truetype(str(SOURCES_PATH / "OpenSans-Semibold.ttf"), 75)
-stats_font = ImageFont.truetype(str(SOURCES_PATH / "Bobby Jones Soft.otf"), 130)
+title_font = ImageFont.truetype(str(SOURCES_PATH / "LilitaOne-Regular.ttf"), 170)
+capacity_name_font = ImageFont.truetype(str(SOURCES_PATH / "LilitaOne-Regular.ttf"), 110)
+capacity_description_font = ImageFont.truetype(str(SOURCES_PATH / "LilitaOne-Regular.ttf"), 75)
+stats_font = ImageFont.truetype(str(SOURCES_PATH / "LilitaOne-Regular.ttf"), 130)
 credits_font = ImageFont.truetype(str(SOURCES_PATH / "arial.ttf"), 40)
 
 
 def draw_card(ball_instance: "BallInstance"):
     ball = ball_instance.countryball
-    ball_health = (237, 115, 101, 255)
+    ball_health = (86, 255, 100, 255)
     ball_credits = ball.credits
 
     if special_image := ball_instance.special_card:
@@ -47,16 +47,16 @@ def draw_card(ball_instance: "BallInstance"):
         (50, 20),
         ball.short_name or ball.country,
         font=title_font,
-        stroke_width=2,
+        stroke_width=5,
         stroke_fill=(0, 0, 0, 255),
     )
-    for i, line in enumerate(textwrap.wrap(f"Ability: {ball.capacity_name}", width=26)):
+    for i, line in enumerate(textwrap.wrap(f"Super: {ball.capacity_name}", width=26)):
         draw.text(
             (100, 1050 + 100 * i),
             line,
             font=capacity_name_font,
-            fill=(230, 230, 230, 255),
-            stroke_width=2,
+            fill=(255, 255, 255, 255),
+            stroke_width=5,
             stroke_fill=(0, 0, 0, 255),
         )
     for i, line in enumerate(textwrap.wrap(ball.capacity_description, width=32)):
@@ -64,7 +64,7 @@ def draw_card(ball_instance: "BallInstance"):
             (60, 1300 + 80 * i),
             line,
             font=capacity_description_font,
-            stroke_width=1,
+            stroke_width=5,
             stroke_fill=(0, 0, 0, 255),
         )
     draw.text(
@@ -72,15 +72,15 @@ def draw_card(ball_instance: "BallInstance"):
         str(ball_instance.health),
         font=stats_font,
         fill=ball_health,
-        stroke_width=1,
+        stroke_width=5,
         stroke_fill=(0, 0, 0, 255),
     )
     draw.text(
         (1120, 1670),
         str(ball_instance.attack),
         font=stats_font,
-        fill=(252, 194, 76, 255),
-        stroke_width=1,
+        fill=(255, 66, 92, 255),
+        stroke_width=5,
         stroke_fill=(0, 0, 0, 255),
         anchor="ra",
     )
@@ -88,11 +88,11 @@ def draw_card(ball_instance: "BallInstance"):
         (30, 1870),
         # Modifying the line below is breaking the licence as you are removing credits
         # If you don't want to receive a DMCA, just don't
-        "Created by El Laggron\n" f"Artwork author: {ball_credits}",
+        "Created by El Laggron (Ballsdex), AngerRandom (BrawlDex)\n" f"Credits: {ball_credits}",
         font=credits_font,
-        fill=(0, 0, 0, 255),
-        stroke_width=0,
-        stroke_fill=(255, 255, 255, 255),
+        fill=(255, 255, 255, 255),
+        stroke_width=3,
+        stroke_fill=(0, 0, 0, 255),
     )
 
     artwork = Image.open("." + ball.collection_card).convert("RGBA")
