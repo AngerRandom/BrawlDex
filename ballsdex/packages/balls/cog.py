@@ -258,7 +258,7 @@ class Balls(commands.GroupCog, group_name=settings.players_group_cog_name):
                 return
         # Filter disabled balls, they do not count towards progression
         # Only ID and emoji is interesting for us
-        bot_countryballs = {x: y.emoji_id for x, y in balls.items() if y.enabled}
+        bot_countryballs = {x: y.emoji_id for x, y in balls.items() if y.enabled and 3 <= y.economy_id <= 9 and not 19 <= y.regime_id <= 21}
 
         # Set of ball IDs owned by the player
         filters = {"player__discord_id": user_obj.id, "ball__enabled": True}
@@ -279,7 +279,7 @@ class Balls(commands.GroupCog, group_name=settings.players_group_cog_name):
 
         owned_countryballs = set(
             x[0]
-            for x in await BallInstance.filter(**filters)
+            for x in await BallInstance.filter(**filters).exclude(ball__economy_id=10).exclude(ball__economy_id=11).exclude(ball__economy_id=12).exclude(ball__economy_id=13).exclude(ball__economy_id=14).exclude(ball__economy_id=19).exclude(ball__economy_id=20).exclude(ball__economy_id=21)
             .distinct()  # Do not query everything
             .values_list("ball_id")
         )
