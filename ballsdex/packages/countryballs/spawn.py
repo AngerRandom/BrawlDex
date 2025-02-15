@@ -218,10 +218,10 @@ class SpawnManager(BaseSpawnManager):
             multiplier = 0.8
             range = "5-99"
         elif guild.member_count < 1000:
-            multiplier = 0.5
+            multiplier = 1.3
             range = "100-999"
         else:
-            multiplier = 0.2
+            multiplier = 0.4
             range = "1000+"
 
         penalities: list[str] = []
