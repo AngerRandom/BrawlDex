@@ -80,7 +80,7 @@ def draw_card(
         stroke_fill=(0, 0, 0, 255),
     )
 
-    cap_name = textwrap.wrap(f"Ability: {ball.capacity_name}", width=26)
+    cap_name = textwrap.wrap(f"{ball.capacity_name}", width=26)
 
     for i, line in enumerate(cap_name):
         draw.text(
@@ -136,7 +136,7 @@ def draw_card(
         (30, 1870),
         # Modifying the line below is breaking the licence as you are removing credits
         # If you don't want to receive a DMCA, just don't
-        f"Created by El Laggron{special_credits}\n" f"Artwork author: {ball_credits}",
+        f"Ballsdex by El Laggron, HTDex & HTVG by AngerRandom\n" f"{ball_credits}",
         font=credits_font,
         fill=credits_color,
         stroke_width=0,
