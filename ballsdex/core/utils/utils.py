@@ -25,6 +25,7 @@ async def inventory_privacy(
     player: Player,
     user_obj: Union[discord.User, discord.Member],
 ):
+    msg = None
     privacy_policy = player.privacy_policy
     interacting_player, _ = await Player.get_or_create(discord_id=interaction.user.id)
     if interaction.user.id == player.discord_id:
@@ -35,6 +36,8 @@ async def inventory_privacy(
         await interaction.followup.send(
             "This user has set their inventory to private.", ephemeral=True
         )
+        if interaction.guild.id == settings.admin_guild_ids[0]:
+                await msg.add_reaction("🧑‍🌾")
         return False
     elif privacy_policy == PrivacyPolicy.FRIENDS:
         if not await interacting_player.is_friend(player):
@@ -42,6 +45,7 @@ async def inventory_privacy(
                 "This users inventory can only be viewed from users they have added as friends.",
                 ephemeral=True,
             )
+            
             return False
     elif privacy_policy == PrivacyPolicy.SAME_SERVER:
         if not bot.intents.members:
