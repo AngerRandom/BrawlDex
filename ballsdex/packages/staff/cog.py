@@ -2,7 +2,7 @@ import io
 from typing import TYPE_CHECKING
 import logging
 from pathlib import Path
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, cast, Tuple
 
 import discord
 from discord import app_commands
@@ -21,6 +21,10 @@ if TYPE_CHECKING:
     from ballsdex.core.bot import BallsDexBot
 
 log = logging.getLogger("ballsdex.packages.staff")
+
+async def asset_dump(self, brawler: Ball) -> Tuple[str, str, bool, bool, str, str, int, int, int, str, str, str, str, str]:
+    await brawler.fetch_related("regime", "economy")
+    return brawler.country, brawler.short_name, brawler.enabled, brawler.tradeable, brawler.economy.name, brawler.regime.name, brawler.health, brawler.attack, brawler.emoji_id, brawler.capacity_name, brawler.capacity_description, brawler.catch_names, f"https://brawldex.fandom.com/wiki/{brawler.country.replace(" ", "_")}", f"https://cdn.discordapp.com/emojis/{brawler.emoji_id}.png" 
 
 @app_commands.guilds(*settings.admin_guild_ids)
 class Staff(commands.GroupCog, group_name="staff"):
