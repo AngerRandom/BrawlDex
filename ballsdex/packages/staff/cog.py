@@ -305,7 +305,13 @@ class Staff(commands.GroupCog, group_name="staff"):
                 f"Card Text: {cardtext}\n"
                 f"Catch Names: {catchnames}\n"
                 f"Wiki Link: {wikilink}\n"
-                f"Pin Link: {pinlink}"
+                f"Pin Link: {pinlink}",
+                files=filearray,
+                ephemeral=False
+            )
+        except Exception as e:
+            log.error("Something went wrong in asset dump.", exc_info=e)
+            return
                 
    
                     
