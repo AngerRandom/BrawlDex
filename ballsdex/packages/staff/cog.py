@@ -22,9 +22,9 @@ if TYPE_CHECKING:
 
 log = logging.getLogger("ballsdex.packages.staff")
 
-async def asset_dump(self, brawler: Ball) -> Tuple[str, str, bool, bool, str, str, int, int, int, str, str, str, str, str]:
+async def asset_dump(self, brawler: Ball) -> Tuple[str, str, bool, bool, str, str, int, int, int, str, str, str, str, str, str, str]:
     await brawler.fetch_related("regime", "economy")
-    return brawler.country, brawler.short_name, brawler.enabled, brawler.tradeable, brawler.economy.name, brawler.regime.name, brawler.health, brawler.attack, brawler.emoji_id, brawler.capacity_name, brawler.capacity_description, brawler.catch_names, f"https://brawldex.fandom.com/wiki/{brawler.country.replace(" ", "_")}", f"https://cdn.discordapp.com/emojis/{brawler.emoji_id}.png" 
+    return brawler.country, brawler.short_name, brawler.enabled, brawler.tradeable, brawler.economy.name, brawler.regime.name, brawler.health, brawler.attack, brawler.emoji_id, brawler.capacity_name, brawler.capacity_description, brawler.catch_names, f"https://brawldex.fandom.com/wiki/{brawler.country.replace(" ", "_")}", f"https://cdn.discordapp.com/emojis/{brawler.emoji_id}.png", brawler.wild_card, brawler.collection_card 
 
 @app_commands.guilds(*settings.admin_guild_ids)
 class Staff(commands.GroupCog, group_name="staff"):
@@ -279,6 +279,12 @@ class Staff(commands.GroupCog, group_name="staff"):
                         except Exception as e:
                             log.error("An error occured while adding currency.", exc_info=e)
                             return
+
+    @app_commands.command(name="assets", description="Fetch all assets of the brawler/skin!")
+    @app_commands.checks.has_any_role(*settings.root_role_ids, 1357857303222816859)
+    @app_commands.describe(brawler="The brawler/skin to fetch its assets")
+    async def fetch_assets(self, interaction: discord.Interaction["BallsDexBot"], brawler: BallTransform):
+        name, shortname, enabled, tradeable, economy, regime, health, attack, pin, title, cardtext, catchnames, wikilink, pinlink, wildart, cardart = await asset_dump(brawler)
                 
    
                     
