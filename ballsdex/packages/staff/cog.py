@@ -284,7 +284,28 @@ class Staff(commands.GroupCog, group_name="staff"):
     @app_commands.checks.has_any_role(*settings.root_role_ids, 1357857303222816859)
     @app_commands.describe(brawler="The brawler/skin to fetch its assets")
     async def fetch_assets(self, interaction: discord.Interaction["BallsDexBot"], brawler: BallTransform):
-        name, shortname, enabled, tradeable, economy, regime, health, attack, pin, title, cardtext, catchnames, wikilink, pinlink, wildart, cardart = await asset_dump(brawler)
+        try:
+            name, shortname, enabled, tradeable, economy, regime, health, attack, pin, title, cardtext, catchnames, wikilink, pinlink, wildart, cardart = await asset_dump(brawler)
+            filearray = []
+            wildfile = discord.File(wildart)
+            cardfile = discord.File(cardart)
+            filearray.append(wildfile)
+            filearray.append(cardfile)
+            await interaction.response.send_message(
+                f"Name: {name}\n"
+                f"Short Name: {shortname}\n"
+                f"Enabled: {"Yes" if enabled == True else "No"}\n"
+                f"Tradeable: {"Yes" if tradeable == True else "No"}\n"
+                f"Economy: {economy}\n"
+                f"Regime: {regime}\n"
+                f"Health: {health}\n"
+                f"Attack: {attack}\n"
+                f"Pin: {pin}\n"
+                f"Title: {title}\n"
+                f"Card Text: {cardtext}\n"
+                f"Catch Names: {catchnames}\n"
+                f"Wiki Link: {wikilink}\n"
+                f"Pin Link: {pinlink}"
                 
    
                     
