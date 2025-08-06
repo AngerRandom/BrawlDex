@@ -292,18 +292,18 @@ class Staff(commands.GroupCog, group_name="staff"):
             filearray.append(wildfile)
             filearray.append(cardfile)
             await interaction.response.send_message(
-                f"Name: {name}\n"
-                f"Short Name: {shortname}\n"
-                f"Enabled: {"Yes" if enabled == True else "No"}\n"
-                f"Tradeable: {"Yes" if tradeable == True else "No"}\n"
-                f"Economy: {economy}\n"
-                f"Regime: {regime}\n"
-                f"Health: {health}\n"
-                f"Attack: {attack}\n"
-                f"Pin: {pin}\n"
-                f"Title: {title}\n"
-                f"Card Text: {cardtext}\n"
-                f"Catch Names: {catchnames}\n"
+                f"Name: `{name}`\n"
+                f"Short Name: `{shortname}`\n"
+                f"Enabled: `{"Yes" if enabled == True else "No"}`\n"
+                f"Tradeable: `{"Yes" if tradeable == True else "No"}`\n"
+                f"Economy: `{economy}`\n"
+                f"Regime: `{regime}`\n"
+                f"Health: `{health}`\n"
+                f"Attack: `{attack}`\n"
+                f"Pin: `{pin}`\n"
+                f"Title: `{title}`\n"
+                f"Card Text: `{cardtext}`\n"
+                f"Catch Names: `{catchnames}`\n"
                 f"Wiki Link: {wikilink}\n"
                 f"Pin Link: {pinlink}",
                 files=filearray,
