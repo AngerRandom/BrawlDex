@@ -42,6 +42,9 @@ class UpgradeConfirmView(View):
         
     @button(label="Confirm", style=discord.ButtonStyle.secondary)
     async def confirm_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
+        if interaction.user != self.author:
+            await interaction.response.send_message("This is not your interaction!", ephemeral=True)
+            return
         SKIN_REGIMES = [
             22,
             23,
@@ -81,8 +84,11 @@ class UpgradeConfirmView(View):
         current_atk = int(self.model.attack * float(f"1.{self.brawler.attack_bonus}")) if float(f"1.{self.brawler.attack_bonus}") != 1.100 else int(self.model.attack * 2)
         cost = self.NextUpgradeCost[current_plvl]
         player = await PlayerModel.get(discord_id=interaction.user.id)
+        if not self.brawler or self.brawler.player != player:
+            return
         if player.powerpoints < cost:
             await interaction.edit_original_response(content=f"You're missing {cost-player.powerpoints}{pp_emoji} to upgrade {brawler_emoji}[{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>) to {next_plvl_emoji}.")
+            return
         else:
             player.powerpoints -= cost
             await player.save(update_fields=("powerpoints",))
@@ -94,6 +100,9 @@ class UpgradeConfirmView(View):
             
     @button(label="Cancel", style=discord.ButtonStyle.danger)
     async def cancel_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
+        if interaction.user != self.author:
+            await interaction.response.send_message("This is not your interaction!", ephemeral=True)
+            return
         await interaction.edit_original_response(content="The operation was cancelled.")
 
     async def on_timeout(self):
@@ -232,8 +241,7 @@ class PowerPoints(commands.GroupCog, group_name="powerpoints"):
         """
         
         playerm = await PlayerModel.get(discord_id=interaction.user.id)
-        if not brawler or brawler.player != playerm:
-            return
+        
         
         
         cost = self.NextUpgradeCost[plvl]
