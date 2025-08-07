@@ -48,7 +48,7 @@ class UpgradeConfirmView(View):
         self.new_hp = None
         self.current_atk = None
         self.new_atk = None
-        brawler_emoji = None
+        self.brawler_emoji = None
         self.cost = None
         self.ind_str = None
         
