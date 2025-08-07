@@ -50,6 +50,7 @@ class UpgradeConfirmView(View):
         self.new_atk = None
         brawler_emoji = None
         self.cost = None
+        self.ind_str = None
         
     @button(label="Confirm", style=discord.ButtonStyle.secondary)
     async def confirm_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
@@ -69,6 +70,7 @@ class UpgradeConfirmView(View):
             38,
             35
         ]
+        self.ind_str = "Skin" if self.brawler.regime_id in SKIN_REGIMES else "Brawler"
         plevel_emojis = [
             1366783166941102081,
             1366783917314674698,
@@ -95,7 +97,7 @@ class UpgradeConfirmView(View):
         player = await PlayerModel.get(discord_id=interaction.user.id)
         
         if player.powerpoints < self.cost:
-            await interaction.edit_original_response(content=f"You're missing {self.cost-player.powerpoints}{self.pp_emoji} to upgrade {self.brawler_emoji}[{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>) to {self.next_plvl_emoji}.")
+            await interaction.edit_original_response(content=f"You're missing {self.cost-player.powerpoints}{self.pp_emoji} to upgrade [{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>){self.brawler_emoji} to {self.next_plvl_emoji}.")
             return
         else:
             player.powerpoints -= self.cost
@@ -104,7 +106,7 @@ class UpgradeConfirmView(View):
             await self.brawler.save()
             self.new_hp = int(self.model.health * float(f"1.{self.brawler.health_bonus}")) if float(f"1.{self.brawler.health_bonus}") != 1.100 else int(self.model.health * 2)
             self.new_atk = int(self.model.attack * float(f"1.{self.brawler.attack_bonus}")) if float(f"1.{self.brawler.attack_bonus}") != 1.100 else int(self.model.attack * 2)
-            await interaction.edit_original_response(content=f"{self.brawler_emoji}[{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>) was upgraded from {self.current_plvl_emoji} to {self.next_plvl_emoji}!\n{self.current_hp}{self.hp_emoji}→{self.new_hp}{self.hp_emoji}  {self.current_atk}{self.atk_emoji}→{self.new_atk}{self.atk_emoji}")
+            await interaction.edit_original_response(content=f"[{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>){self.brawler_emoji} was upgraded from {self.current_plvl_emoji} to {self.next_plvl_emoji}!\n{self.current_hp}{self.hp_emoji}→{self.new_hp}{self.hp_emoji}  {self.current_atk}{self.atk_emoji}→{self.new_atk}{self.atk_emoji}")
             
     @button(label="Cancel", style=discord.ButtonStyle.danger)
     async def cancel_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
@@ -251,24 +253,11 @@ class PowerPoints(commands.GroupCog, group_name="powerpoints"):
         playerm = await PlayerModel.get(discord_id=interaction.user.id)
         if not brawler or brawler.player != playerm:
             return
-        
-        
-        
-        cost = self.NextUpgradeCost[plvl]
-        if brawler.health_bonus >= 100 and brawler.attack_bonus >= 100 or cost is None:
-            await interaction.response.send_message("This brawler can not be upgraded further.", ephemeral=True)
-        elif playerm.powerpoints >= cost:
-            await interaction.response.defer(thinking=True)
-            playerm.powerpoints -= cost
-            await playerm.save(update_fields=("powerpoints",))
-            brawler.health_bonus += 10; brawler.attack_bonus += 10
-            await brawler.save()
-            data, file, view = await brawler.prepare_for_message(interaction)
-            try:
-                await interaction.followup.send(f"{interaction.user.mention}, your {"Skin" if brawler.ball.regime_id in SKIN_REGIMES else "Brawler"} has been upgraded.\n\n{data}", file=file, view=view)
-            finally:
-                file.close()
-                log.debug(f"{interaction.user.id} upgraded a {brawler.id}")
+        view = UpgradeConfirmView(author=interaction.user, brawler=brawler)
+        await interaction.response.send_message(
+            f"Are you sure you want to upgrade this {view.ind_str}?\n"
+            f"[{view.model.country}](<https://brawldex.fandom.com/wiki/{view.model.country.replace(" ", "_")}>){view.current_plvl_emoji}→{view.next_plvl_emoji} ({playerm.powerpoints}{view.pp_emoji}→{playerm.powerpoints-view.cost}{view.pp_emoji})\n"
+            f"{view.current_hp}{view.hp_emoji}→{view_new
 
 
 @app_commands.allowed_installs(guilds=True, users=True)
