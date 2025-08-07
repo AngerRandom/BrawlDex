@@ -39,6 +39,17 @@ class UpgradeConfirmView(View):
         self.brawler = brawler
         self.model = brawler.ball
         self.NextUpgradeCost = {2: 20, 3: 30, 4: 50, 5: 80, 6: 130, 7: 210, 8: 340, 9: 550, 10: 890, 11: 1440}
+        self.current_plvl_emoji = None
+        self.next_plvl_emoji = None
+        self.atk_emoji = None
+        self.hp_emoji = None
+        self.pp_emoji = None
+        self.current_hp = None
+        self.new_hp = None
+        self.current_atk = None
+        self.new_atk = None
+        brawler_emoji = None
+        self.cost = None
         
     @button(label="Confirm", style=discord.ButtonStyle.secondary)
     async def confirm_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
@@ -71,32 +82,29 @@ class UpgradeConfirmView(View):
             1366788095227199569,
             1366788107747328122
         ]
-        current_plvl = int((self.brawler.health_bonus+self.brawler.attack_bonus+20)/20+1)
-        current_plvl_emoji = interaction.client.get_emoji(plevel_emojis[current_plvl-1])
-        next_plvl_emoji = interaction.client.get_emoji(plevel_emojis[current_plvl])
-        hp_emoji = interaction.client.get_emoji(1399770718794809385)
-        atk_emoji = interaction.client.get_emoji(1399770723060289557)
-        pp_emoji = interaction.client.get_emoji(1364807487106191471)
-        new_hp = None
-        new_atk = None
-        brawler_emoji = interaction.client.get_emoji(self.model.emoji_id)
-        current_hp = int(self.model.health * float(f"1.{self.brawler.health_bonus}")) if float(f"1.{self.brawler.health_bonus}") != 1.100 else int(self.model.health * 2)
-        current_atk = int(self.model.attack * float(f"1.{self.brawler.attack_bonus}")) if float(f"1.{self.brawler.attack_bonus}") != 1.100 else int(self.model.attack * 2)
-        cost = self.NextUpgradeCost[current_plvl]
+        self.current_plvl = int((self.brawler.health_bonus+self.brawler.attack_bonus+20)/20+1)
+        self.current_plvl_emoji = interaction.client.get_emoji(plevel_emojis[self.current_plvl-1])
+        self.next_plvl_emoji = interaction.client.get_emoji(plevel_emojis[self.current_plvl])
+        self.hp_emoji = interaction.client.get_emoji(1399770718794809385)
+        self.atk_emoji = interaction.client.get_emoji(1399770723060289557)
+        self.pp_emoji = interaction.client.get_emoji(1364807487106191471)
+        self.brawler_emoji = interaction.client.get_emoji(self.model.emoji_id)
+        self.current_hp = int(self.model.health * float(f"1.{self.brawler.health_bonus}")) if float(f"1.{self.brawler.health_bonus}") != 1.100 else int(self.model.health * 2)
+        self.current_atk = int(self.model.attack * float(f"1.{self.brawler.attack_bonus}")) if float(f"1.{self.brawler.attack_bonus}") != 1.100 else int(self.model.attack * 2)
+        self.cost = self.NextUpgradeCost[self.current_plvl]
         player = await PlayerModel.get(discord_id=interaction.user.id)
-        if not self.brawler or self.brawler.player != player:
-            return
-        if player.powerpoints < cost:
-            await interaction.edit_original_response(content=f"You're missing {cost-player.powerpoints}{pp_emoji} to upgrade {brawler_emoji}[{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>) to {next_plvl_emoji}.")
+        
+        if player.powerpoints < self.cost:
+            await interaction.edit_original_response(content=f"You're missing {self.cost-player.powerpoints}{self.pp_emoji} to upgrade {self.brawler_emoji}[{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>) to {self.next_plvl_emoji}.")
             return
         else:
-            player.powerpoints -= cost
+            player.powerpoints -= self.cost
             await player.save(update_fields=("powerpoints",))
             self.brawler.health_bonus += 10; self.brawler.attack_bonus += 10
             await self.brawler.save()
-            new_hp = int(self.model.health * float(f"1.{self.brawler.health_bonus}")) if float(f"1.{self.brawler.health_bonus}") != 1.100 else int(self.model.health * 2)
-            new_atk = int(self.model.attack * float(f"1.{self.brawler.attack_bonus}")) if float(f"1.{self.brawler.attack_bonus}") != 1.100 else int(self.model.attack * 2)
-            await interaction.edit_original_response(content=f"{brawler_emoji}[{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>) was upgraded from {current_plvl_emoji} to {next_plvl_emoji}!\n{current_hp}{hp_emoji}→{new_hp}{hp_emoji}  {current_atk}{atk_emoji}→{new_atk}{atk_emoji}")
+            self.new_hp = int(self.model.health * float(f"1.{self.brawler.health_bonus}")) if float(f"1.{self.brawler.health_bonus}") != 1.100 else int(self.model.health * 2)
+            self.new_atk = int(self.model.attack * float(f"1.{self.brawler.attack_bonus}")) if float(f"1.{self.brawler.attack_bonus}") != 1.100 else int(self.model.attack * 2)
+            await interaction.edit_original_response(content=f"{self.brawler_emoji}[{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>) was upgraded from {self.current_plvl_emoji} to {self.next_plvl_emoji}!\n{self.current_hp}{self.hp_emoji}→{self.new_hp}{self.hp_emoji}  {self.current_atk}{self.atk_emoji}→{self.new_atk}{self.atk_emoji}")
             
     @button(label="Cancel", style=discord.ButtonStyle.danger)
     async def cancel_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
@@ -241,6 +249,8 @@ class PowerPoints(commands.GroupCog, group_name="powerpoints"):
         """
         
         playerm = await PlayerModel.get(discord_id=interaction.user.id)
+        if not brawler or brawler.player != playerm:
+            return
         
         
         
