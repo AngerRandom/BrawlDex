@@ -33,44 +33,16 @@ if TYPE_CHECKING:
 log = logging.getLogger("ballsdex.packages.currency")
 
 class UpgradeConfirmView(View):
-    def __init__(self, author: discord.User | discord.Member, brawler: BallInstance):
+    def __init__(self, author: discord.User | discord.Member, brawler: BallInstance, bot: "BallsDexBot", player: PlayerModel):
         super().__init__(timeout=60)
         self.author = author
         self.brawler = brawler
         self.model = brawler.ball
         self.NextUpgradeCost = {2: 20, 3: 30, 4: 50, 5: 80, 6: 130, 7: 210, 8: 340, 9: 550, 10: 890, 11: 1440}
-        self.current_plvl_emoji = None
-        self.next_plvl_emoji = None
-        self.atk_emoji = None
-        self.hp_emoji = None
-        self.pp_emoji = None
-        self.current_hp = None
-        self.new_hp = None
-        self.current_atk = None
-        self.new_atk = None
-        self.brawler_emoji = None
-        self.cost = None
-        self.ind_str = None
-        
-    @button(label="Confirm", style=discord.ButtonStyle.secondary)
-    async def confirm_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
-        if interaction.user != self.author:
-            await interaction.response.send_message("This is not your interaction!", ephemeral=True)
-            return
-        SKIN_REGIMES = [
-            22,
-            23,
-            24,
-            25,
-            26,
-            27,
-            37,
-            40,
-            39,
-            38,
-            35
-        ]
+
+        SKIN_REGIMES = [22, 23, 24, 25, 26, 27, 37, 40, 39, 38, 35]
         self.ind_str = "Skin" if self.brawler.regime_id in SKIN_REGIMES else "Brawler"
+
         plevel_emojis = [
             1366783166941102081,
             1366783917314674698,
@@ -84,18 +56,31 @@ class UpgradeConfirmView(View):
             1366788095227199569,
             1366788107747328122
         ]
-        self.current_plvl = int((self.brawler.health_bonus+self.brawler.attack_bonus+20)/20+1)
-        self.current_plvl_emoji = interaction.client.get_emoji(plevel_emojis[self.current_plvl-1])
-        self.next_plvl_emoji = interaction.client.get_emoji(plevel_emojis[self.current_plvl])
-        self.hp_emoji = interaction.client.get_emoji(1399770718794809385)
-        self.atk_emoji = interaction.client.get_emoji(1399770723060289557)
-        self.pp_emoji = interaction.client.get_emoji(1364807487106191471)
-        self.brawler_emoji = interaction.client.get_emoji(self.model.emoji_id)
+        self.current_plvl = int((self.brawler.health_bonus + self.brawler.attack_bonus + 20) / 20 + 1)
+        self.current_plvl_emoji = bot.get_emoji(plevel_emojis[self.current_plvl - 1])
+        self.next_plvl_emoji = bot.get_emoji(plevel_emojis[self.current_plvl])
+
+        self.hp_emoji = bot.get_emoji(1399770718794809385)
+        self.atk_emoji = bot.get_emoji(1399770723060289557)
+        self.pp_emoji = bot.get_emoji(1364807487106191471)
+        self.brawler_emoji = bot.get_emoji(self.model.emoji_id)
+
         self.current_hp = int(self.model.health * float(f"1.{self.brawler.health_bonus}")) if float(f"1.{self.brawler.health_bonus}") != 1.100 else int(self.model.health * 2)
         self.current_atk = int(self.model.attack * float(f"1.{self.brawler.attack_bonus}")) if float(f"1.{self.brawler.attack_bonus}") != 1.100 else int(self.model.attack * 2)
+
         self.cost = self.NextUpgradeCost[self.current_plvl]
-        player = await PlayerModel.get(discord_id=interaction.user.id)
+        future_health_bonus = self.brawler.health_bonus + 10
+        future_attack_bonus = self.brawler.attack_bonus + 10
+        self.new_hp = int(self.model.health * float(f"1.{future_health_bonus}")) if float(f"1.{future_health_bonus}") != 1.100 else int(self.model.health * 2)
+        self.new_atk = int(self.model.attack * float(f"1.{future_attack_bonus}")) if float(f"1.{future_attack_bonus}") != 1.100 else int(self.model.attack * 2)
+
         
+    @button(label="Confirm", style=discord.ButtonStyle.secondary)
+    async def confirm_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
+        if interaction.user != self.author:
+            await interaction.response.send_message("This is not your interaction!", ephemeral=True)
+            return
+     
         if player.powerpoints < self.cost:
             await interaction.edit_original_response(content=f"You're missing {self.cost-player.powerpoints}{self.pp_emoji} to upgrade [{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>){self.brawler_emoji} to {self.next_plvl_emoji}.")
             return
@@ -104,8 +89,6 @@ class UpgradeConfirmView(View):
             await player.save(update_fields=("powerpoints",))
             self.brawler.health_bonus += 10; self.brawler.attack_bonus += 10
             await self.brawler.save()
-            self.new_hp = int(self.model.health * float(f"1.{self.brawler.health_bonus}")) if float(f"1.{self.brawler.health_bonus}") != 1.100 else int(self.model.health * 2)
-            self.new_atk = int(self.model.attack * float(f"1.{self.brawler.attack_bonus}")) if float(f"1.{self.brawler.attack_bonus}") != 1.100 else int(self.model.attack * 2)
             await interaction.edit_original_response(content=f"[{self.model.country}](<https://brawldex.fandom.com/wiki/{self.model.country.replace(" ", "_")}>){self.brawler_emoji} was upgraded from {self.current_plvl_emoji} to {self.next_plvl_emoji}!\n{self.current_hp}{self.hp_emoji}→{self.new_hp}{self.hp_emoji}  {self.current_atk}{self.atk_emoji}→{self.new_atk}{self.atk_emoji}")
             
     @button(label="Cancel", style=discord.ButtonStyle.danger)
@@ -253,7 +236,10 @@ class PowerPoints(commands.GroupCog, group_name="powerpoints"):
         playerm = await PlayerModel.get(discord_id=interaction.user.id)
         if not brawler or brawler.player != playerm:
             return
-        view = UpgradeConfirmView(author=interaction.user, brawler=brawler)
+        view = UpgradeConfirmView(author=interaction.user, brawler=brawler, bot=self.bot, player=playerm)
+        if view.brawler.health_bonus == 100 and view.brawler.attack_bonus == 100:
+            await interaction.response.send_message(f"This {view.ind_str} is already at maximum Power Level!", ephemeral=True)
+            return
         await interaction.response.send_message(
             f"Are you sure you want to upgrade this {view.ind_str}?\n"
             f"[{view.model.country}](<https://brawldex.fandom.com/wiki/{view.model.country.replace(" ", "_")}>){view.current_plvl_emoji}→{view.next_plvl_emoji} ({playerm.powerpoints}{view.pp_emoji}→{playerm.powerpoints-view.cost}{view.pp_emoji})\n"
