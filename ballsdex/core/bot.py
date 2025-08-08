@@ -138,6 +138,7 @@ class BallsDexBot(commands.AutoShardedBot):
         disable_time_check: bool = False,
         skip_tree_sync: bool = False,
         dev: bool = False,
+        enable_catch_reset: bool = False,
         **options,
     ):
         # An explaination for the used intents
@@ -164,6 +165,7 @@ class BallsDexBot(commands.AutoShardedBot):
         super().__init__(command_prefix, intents=intents, tree_cls=CommandTree, **options)
         self.tree.disable_time_check = disable_time_check  # type: ignore
         self.skip_tree_sync = skip_tree_sync
+        self.enable_catch_reset = enable_catch_reset
 
         self.dev = dev
         self.prometheus_server: PrometheusServer | None = None
@@ -382,15 +384,18 @@ class BallsDexBot(commands.AutoShardedBot):
                 await self.start_prometheus_server()
             except Exception:
                 log.exception("Failed to start Prometheus server, stats will be unavailable.")
-
-        try:
-            scheduler = AsyncIOScheduler()
-            scheduler.add_job(dailycaughtreset, 'cron', hour=9, minute=0)
-            scheduler.start()
-            asyncio.get_event_loop().run_forever()
-            log.info("Successfully started the Daily Catch Reset!")
-        except Exception:
-            log.error("Failed to start the Daily Catch Reset.", exc_info=True)
+        if self.enable_catch_reset:
+            log.info("Attempting to enable the Daily Catch Reset...")
+            try:
+                scheduler = AsyncIOScheduler()
+                scheduler.add_job(dailycaughtreset, 'cron', hour=9, minute=0)
+                scheduler.start()
+                asyncio.get_event_loop().run_forever()
+                log.info("Successfully enabled the Daily Catch Reset!")
+            except Exception:
+                log.error("Failed to enable the Daily Catch Reset.", exc_info=True)
+        else:
+            log.warning("Daily Catch Reset is not enabled, you may need to reset the catches manually unless you enable it with '--enable-catch-reset' flag.")
 
         print(
             f"\n    [bold][red]{settings.bot_name} bot[/red] [green]"
