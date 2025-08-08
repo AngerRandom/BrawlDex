@@ -47,6 +47,7 @@ class CLIFlags(argparse.Namespace):
     skip_tree_sync: bool
     debug: bool
     dev: bool
+    enable_catch_reset: bool
 
 
 def parse_cli_flags(arguments: list[str]) -> CLIFlags:
@@ -83,6 +84,7 @@ def parse_cli_flags(arguments: list[str]) -> CLIFlags:
     )
     parser.add_argument("--debug", action="store_true", help="Enable debug logs")
     parser.add_argument("--dev", action="store_true", help="Enable developer mode")
+    parser.add_argument("--enable-catch-reset", action="store_true", help="Enables the Daily Catch Reset")
     args = parser.parse_args(arguments, namespace=CLIFlags())
     return args
 
