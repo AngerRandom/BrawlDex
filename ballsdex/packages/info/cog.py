@@ -248,6 +248,7 @@ class Info(commands.Cog):
         brawler_emoji = self.bot.get_emoji(1372376567153557514)
         skin_emoji = self.bot.get_emoji(1373356124681535582)
         pps_emoji = self.bot.get_emoji(1364817571819425833)
+        socials_emoji = self.bot.get_emoji(1403407499700211903)
         credits_emoji = self.bot.get_emoji(1364877745032794192)
         starrdrops_emoji = self.bot.get_emoji(1363188571099496699)
         collectibles_emoji = self.bot.get_emoji(1379120934732042240)
@@ -267,6 +268,15 @@ class Info(commands.Cog):
             .distinct()  # Do not query everything
             .values_list("ball_id")
             )
+        trades = await Trade.filter(
+            Q(player1__discord_id=interaction.user.id) | Q(player2__discord_id=interaction.user.id)
+        ).values_list("player1__discord_id", "player2__discord_id")
+        trade_partners = set()
+        for p1, p2 in trades:
+            if p1 != interaction.user.id:
+                trade_partners.add(p1)
+            if p2 != interaction.user.id:
+                trade_partners.add(p2)
         embed = discord.Embed(
             title=f"{user_obj.name}'s Profile",
             color=discord.Colour.from_str("#ffff00")
@@ -277,6 +287,8 @@ class Info(commands.Cog):
             f"> {collectible_count}{collectibles_emoji}\n"
             f"> {len(owned_brawlers)}/{len(bot_brawlers)}{brawler_emoji}\n"
             f"> {len(owned_skins)}/{len(bot_skins)}{skin_emoji}\n"
+            f"> {len(trades):,} Trades Done {socials_emoji}\n"
+            f"> Traded With {len(trade_partners):,} Users {socials_emoji}\n"
             f"## Resources\n"
             f"> {player_obj.powerpoints}{pps_emoji}\n"
             f"> {player_obj.credits}{credits_emoji}\n"
