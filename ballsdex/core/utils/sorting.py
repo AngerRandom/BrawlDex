@@ -5,7 +5,6 @@ from tortoise.expressions import F, RawSQL
 
 if TYPE_CHECKING:
     from tortoise.queryset import QuerySet
-
     from ballsdex.core.models import BallInstance
 
 
@@ -59,22 +58,42 @@ def sort_balls(
         return queryset.annotate(stats_bonus=F("health_bonus") + F("attack_bonus")).order_by(
             "-stats_bonus"
         )
-    elif sort == SortingChoices.health or sort == SortingChoices.attack:
-        # Use the sorting name as the annotation key to avoid issues when this function
-        # is called multiple times. Using the same annotation name twice will error.
-        return queryset.annotate(
-            **{f"{sort.value}_sort": F(f"{sort.value}_bonus") + F(f"ball__{sort.value}")}
-        ).order_by(f"-{sort.value}_sort")
-    elif sort == SortingChoices.total_stats:
+    elif sort in (SortingChoices.health, SortingChoices.attack):
+        queryset = queryset.select_related("ball")
         return (
-            queryset.select_related("ball")
+            queryset
             .annotate(
-                stats=RawSQL("ballinstance__ball.health + " "ballinstance__ball.attack :: BIGINT")
+                **{f"{sort.value}_sort": F(f"{sort.value}_bonus") + F(f"ball__{sort.value}")}
             )
-            .order_by("-stats")
+            .order_by(f"-{sort.value}_sort")
+        )
+    elif sort == SortingChoices.total_stats:
+        queryset = queryset.select_related("ball")
+        return (
+            queryset
+            .annotate(
+                total_stats=F("health_bonus") + F("attack_bonus") + F("ball__health") + F("ball__attack")
+            )
+            .order_by("-total_stats")
         )
     elif sort == SortingChoices.rarity:
-        return queryset.order_by(sort.value, "ball__country")
+        CUSTOM_REGIME_ORDER = [
+            35, 34, 19, 20, 21, 33, 40, 37, 36, 26, 16,
+            25, 39, 8, 24, 7, 23, 38, 6, 22, 5
+        ]
+        REGIME_ORDER_LOOKUP = {regime_id: index for index, regime_id in enumerate(CUSTOM_REGIME_ORDER)}
+
+        queryset = queryset.select_related("ball__regime")
+
+        when_conditions = [
+            f"WHEN ball__regime_id = {regime_id} THEN {order_index}"
+            for regime_id, order_index in REGIME_ORDER_LOOKUP.items()
+        ]
+        case_sql = "CASE " + " ".join(when_conditions) + f" ELSE {len(CUSTOM_REGIME_ORDER)} END"
+
+        return queryset.annotate(
+            regime_order=RawSQL(case_sql)
+        ).order_by("regime_order", "ball__country")
     else:
         return queryset.order_by(sort.value)
 
