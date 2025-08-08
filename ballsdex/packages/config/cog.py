@@ -13,16 +13,9 @@ if TYPE_CHECKING:
 
 activation_embed = discord.Embed(
     colour=0x00D936,
-    title=f"{settings.bot_name} activation",
-    description=f"To enable {settings.bot_name} in your server, you must "
-    f"read and accept the [Terms of Service]({settings.terms_of_service}).\n\n"
-    "As a summary, these are the rules of the bot:\n"
-    f"- No farming (spamming or creating servers for {settings.plural_collectible_name})\n"
-    f"- Selling or exchanging {settings.plural_collectible_name} "
-    "against money or other goods is forbidden\n"
-    "- Do not attempt to abuse the bot's internals\n"
-    "**Not respecting these rules will lead to a blacklist**",
-)
+    title=f"BrawlDex Spawn Activation",
+    description="After pressing \"Accept\" Brawlers & Skins will start appearing in this channel, here's some infos:\n* Brawlers/Skins will spawn based on how active the server is, which can be every 20 minutes or every few hours if the server is not very active.\n* When a Brawler appears you have 3 minutes to click \"BRAWL!\", to defeat and obtain the Brawler you must write their name correctly, if not defeated for 3 minutes the Brawler will run away.\n* We have a wiki named [brawldex.fandom.com](<https://brawldex.fandom.com/wiki/BrawlDex_Wiki>) that you can visit to learn more about the bot.\n* You can [click this to join our server](https://discord.gg/brawldex) to ask [questions](https://discord.com/channels/1295410565145165884/1373283076272164895) or to [submit your art](https://discord.com/channels/1295410565145165884/1331358375002243122) to bot, all the art and card texts were submitted by peoples like you.\n* This bot is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see [Supercell's Fan Content Policy](https://www.supercell.com/fan-content-policy).\nBy pressing \"Accept\" the server accepts to follow our Terms of Service and Privacy Policy.",
+    )
 
 
 @app_commands.default_permissions(manage_guild=True)
