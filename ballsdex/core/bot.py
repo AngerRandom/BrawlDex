@@ -12,12 +12,14 @@ from typing import TYPE_CHECKING, Self, cast, Tuple
 import aiohttp
 import discord
 import discord.gateway
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiohttp import ClientTimeout
 from cachetools import TTLCache
 from discord import app_commands
 from discord.app_commands.translator import TranslationContextTypes, locale_str
 from discord.enums import Locale
 from discord.ext import commands
+from ballsdex.packages.countryballs.dailycaughtreset import dailycaughtreset
 from prometheus_client import Histogram
 from rich import box, print
 from rich.console import Console
@@ -385,6 +387,11 @@ class BallsDexBot(commands.AutoShardedBot):
             f"\n    [bold][red]{settings.bot_name} bot[/red] [green]"
             "is now operational![/green][/bold]\n"
         )
+        try:
+            scheduler = AsyncIOScheduler()
+            scheduler.add_job(dailycaughtreset, 'cron', hour=9, minute=0)
+            scheduler.start()
+            asyncio.get_event_loop().run_forever()
 
     async def blacklist_check(self, interaction: discord.Interaction[Self]) -> bool:
         blacklisted_emoji = await interaction.client.fetch_application_emoji(1389157054811476081)
