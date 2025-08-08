@@ -383,16 +383,19 @@ class BallsDexBot(commands.AutoShardedBot):
             except Exception:
                 log.exception("Failed to start Prometheus server, stats will be unavailable.")
 
-        print(
-            f"\n    [bold][red]{settings.bot_name} bot[/red] [green]"
-            "is now operational![/green][/bold]\n"
-        )
         try:
             scheduler = AsyncIOScheduler()
             scheduler.add_job(dailycaughtreset, 'cron', hour=9, minute=0)
             scheduler.start()
             asyncio.get_event_loop().run_forever()
+            log.info("Successfully started the Daily Catch Reset!")
+        except Exception:
+            log.error("Failed to start the Daily Catch Reset.", exc_info=True)
 
+        print(
+            f"\n    [bold][red]{settings.bot_name} bot[/red] [green]"
+            "is now operational![/green][/bold]\n"
+        )
     async def blacklist_check(self, interaction: discord.Interaction[Self]) -> bool:
         blacklisted_emoji = await interaction.client.fetch_application_emoji(1389157054811476081)
         if interaction.user.id in self.blacklist:
