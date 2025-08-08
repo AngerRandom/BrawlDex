@@ -45,7 +45,7 @@ credits_color_cache = {}
 def get_credit_color(image: Image.Image, region: tuple) -> tuple:
     image = image.crop(region)
     brightness = sum(image.convert("L").getdata()) / image.width / image.height  # type: ignore
-    return (255, 255, 255, 255) if brightness > 100 else (255, 255, 255, 255)
+    return (0, 0, 0, 255) if brightness > 100 else (255, 255, 255, 255)
 
 def wrap_text(text: str, font: ImageFont.FreeTypeFont, max_width: int, draw: ImageDraw.ImageDraw) -> list[str]:
     paragraphs = text.split('%%')
@@ -214,7 +214,7 @@ def draw_card(
         f"Ballsdex by El Laggron, BrawlDex by AngerRandom, Brawl Stars by Supercell\n" f"{ball_credits}",
         font=credits_font,
         fill=credits_color,
-        stroke_width=3,
+        stroke_width=0,
         stroke_fill=(0, 0, 0, 255),
     )
 
@@ -230,3 +230,4 @@ def draw_card(
     artwork.close()
 
     return image, {"format": "PNG"}
+
