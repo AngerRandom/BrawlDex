@@ -188,34 +188,6 @@ class Player(commands.GroupCog):
             ephemeral=True,
         )
 
-    @policy.command()
-    @app_commands.choices(
-        policy=[
-            app_commands.Choice(
-                name="Use 10s acceptance cooldown", value=TradeCooldownPolicy.COOLDOWN
-            ),
-            app_commands.Choice(
-                name="Bypass acceptance cooldown", value=TradeCooldownPolicy.BYPASS
-            ),
-        ]
-    )
-    async def trade_cooldown(self, interaction: discord.Interaction, policy: TradeCooldownPolicy):
-        """
-        Set your trade cooldown policy.
-
-        Parameters
-        ----------
-        policy: TradeCooldownPolicy
-            The new policy for trade acceptance cooldown.
-        """
-        player, _ = await PlayerModel.get_or_create(discord_id=interaction.user.id)
-        player.trade_cooldown_policy = policy
-        await player.save()
-        await interaction.response.send_message(
-            f"Your trade acceptance cooldown policy has been set to **{policy.name.lower()}**.",
-            ephemeral=True,
-        )
-
     @friend.command(name="add")
     async def friend_add(
         self, interaction: discord.Interaction["BallsDexBot"], user: discord.User
