@@ -41,7 +41,7 @@ class UpgradeConfirmView(View):
         self.NextUpgradeCost = {2: 20, 3: 30, 4: 50, 5: 80, 6: 130, 7: 210, 8: 340, 9: 550, 10: 890, 11: 1440}
 
         SKIN_REGIMES = [22, 23, 24, 25, 26, 27, 37, 40, 39, 38, 35]
-        self.ind_str = "Skin" if self.brawler.regime_id in SKIN_REGIMES else "Brawler"
+        self.ind_str = "Skin" if self.model.regime_id in SKIN_REGIMES else "Brawler"
 
         plevel_emojis = [
             1366783166941102081,
