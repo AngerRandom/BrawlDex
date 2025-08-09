@@ -76,14 +76,14 @@ class UpgradeConfirmView(View):
         self.new_hp = int(self.model.health * float(f"1.{future_health_bonus}")) if float(f"1.{future_health_bonus}") != 1.100 else int(self.model.health * 2)
         self.new_atk = int(self.model.attack * float(f"1.{future_attack_bonus}")) if float(f"1.{future_attack_bonus}") != 1.100 else int(self.model.attack * 2)
 
-    @button(label="Cancel", style=discord.ButtonStyle.danger, emoji=1340497398010613790)
+    @button(label="Cancel", style=discord.ButtonStyle.danger)
     async def cancel_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
         if interaction.user != self.author:
             await interaction.response.send_message("This is not your interaction!", ephemeral=True)
             return
         await interaction.edit_original_response(content="The operation was cancelled.")
         
-    @button(label="Confirm", style=discord.ButtonStyle.success, emoji=1340497420441620530)
+    @button(label="Confirm", style=discord.ButtonStyle.success)
     async def confirm_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
         if interaction.user != self.author:
             await interaction.response.send_message("This is not your interaction!", ephemeral=True)
