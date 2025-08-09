@@ -191,7 +191,7 @@ class Staff(commands.GroupCog, group_name="staff"):
     @app_commands.checks.has_any_role(*settings.root_role_ids, 1357857303222816859)
     @app_commands.choices(currency_type=[
         app_commands.Choice(name="Power Points", value="powerpoints"),
-        app_commands.Choice(name="Credits", value="credits")
+        app_commands.Choice(name="Credits", value="credits"),
         app_commands.Choice(name="Starr Drops", value="starrdrops")
         ])
     @app_commands.describe(currency_type="The currency type to give")
