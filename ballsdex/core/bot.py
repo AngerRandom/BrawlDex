@@ -384,6 +384,11 @@ class BallsDexBot(commands.AutoShardedBot):
                 await self.start_prometheus_server()
             except Exception:
                 log.exception("Failed to start Prometheus server, stats will be unavailable.")
+        
+        print(
+            f"\n    [bold][red]{settings.bot_name} bot[/red] [green]"
+            "is now operational![/green][/bold]\n"
+        )
         if self.enable_catch_reset:
             log.info("Attempting to enable the Daily Catch Reset...")
             try:
@@ -397,10 +402,6 @@ class BallsDexBot(commands.AutoShardedBot):
         else:
             log.warning("Daily Catch Reset is not enabled, you may need to reset the catches manually unless you enable it with '--enable-catch-reset' flag.")
 
-        print(
-            f"\n    [bold][red]{settings.bot_name} bot[/red] [green]"
-            "is now operational![/green][/bold]\n"
-        )
     async def blacklist_check(self, interaction: discord.Interaction[Self]) -> bool:
         blacklisted_emoji = await interaction.client.fetch_application_emoji(1389157054811476081)
         if interaction.user.id in self.blacklist:
