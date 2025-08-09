@@ -285,7 +285,7 @@ class Staff(commands.GroupCog, group_name="staff"):
     @app_commands.describe(brawler="The brawler/skin to fetch its assets")
     async def fetch_assets(self, interaction: discord.Interaction["BallsDexBot"], brawler: BallTransform):
         try:
-            name, shortname, enabled, tradeable, economy, regime, health, attack, pin, title, cardtext, catchnames, wikilink, pinlink, wildart, cardart = await asset_dump(brawler)
+            name, shortname, enabled, tradeable, economy, regime, health, attack, pin, title, cardtext, catchnames, wikilink, pinlink, wildart, cardart = await asset_dump(self, brawler)
             filearray = []
             wildfile = discord.File(wildart)
             cardfile = discord.File(cardart)
