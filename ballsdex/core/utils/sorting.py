@@ -83,7 +83,7 @@ def sort_balls(
         ]
         REGIME_ORDER_LOOKUP = {regime_id: index for index, regime_id in enumerate(CUSTOM_REGIME_ORDER)}
 
-        queryset = queryset.select_related("ball__regime_id")
+        queryset = queryset.select_related("regime")
 
         when_conditions = [
             f"WHEN ball__regime_id = {regime_id} THEN {order_index}"
