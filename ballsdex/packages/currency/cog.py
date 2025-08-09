@@ -35,9 +35,11 @@ log = logging.getLogger("ballsdex.packages.currency")
 class UpgradeConfirmView(View):
     def __init__(self, author: discord.User | discord.Member, brawler: BallInstance, bot: "BallsDexBot", player: PlayerModel):
         super().__init__(timeout=60)
+        self.bot = bot
         self.author = author
         self.brawler = brawler
         self.model = brawler.countryball
+        self.player = player
         self.NextUpgradeCost = {2: 20, 3: 30, 4: 50, 5: 80, 6: 130, 7: 210, 8: 340, 9: 550, 10: 890, 11: 1440}
 
         SKIN_REGIMES = [22, 23, 24, 25, 26, 27, 37, 40, 39, 38, 35]
