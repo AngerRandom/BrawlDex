@@ -1,13 +1,16 @@
 import logging
 import asyncio
+from typing import TYPE_CHECKING
 import discord
 from ballsdex.core.models import Player
-from ballsdex.core.bot import BallsDexBot
 from ballsdex.core.utils.logging import log_action
+
+if TYPE_CHECKING:
+    from ballsdex.core.bot import BallsDexBot
 
 log = logging.getLogger("ballsdex.packages.countryballs")
 
-async def dailycaughtreset(self, bot: BallsDexBot):
+async def dailycaughtreset(self, bot: "BallsDexBot"):
     top_players = await Player.all().order_by("-dailycaught").limit(30)
     lines = []
     for i, player in enumerate(top_players, 1):
