@@ -137,7 +137,7 @@ class Balls(app_commands.Group):
         buttondanger: bool = False,
         buttontext: str | None = None,
         buttonemoji: str | None = None,
-        usertimeout: int | None = None,
+        usertimeout: int = 0,
     ):
         """
         Force spawn a random or specified countryball.
