@@ -250,15 +250,29 @@ class StarrDrop(commands.Cog):
             log.error("Not possible to execute this command here", exc_info=e)
             return
         if bp_type == "Brawl Pass Plus":
-            player.sdcount += 2
-            await player.save()
-            await interaction.response.send_message("Successfully claimed 2 Starr Drops since you have Brawl Pass Plus!", ephemeral=True)
-            log.debug(f"{bp_msg} 2 Starr Drops are given. (User ID: {interaction.user.id})")
+            if player.sdcount == 50:
+                await interaction.response.send_message("Your inventory is full!", ephemeral=True)
+                return
+            elif player.sdcount + 2 > 50:
+                player.sdcount += 1
+                await player.save()
+                await interaction.response.send_message("You have Brawl Pass Plus, however, the inventory limit may exceed if 2 Starr Drops are given, so gave one Starr Drop instead.", epheremal=True)
+                log.debug(f"{bp_msg} However, 2 Starr Drops may exceed the limits, so only one Starr Drop is given instead. (User ID: {interaction.user.id})")
+            else:
+                player.sdcount += 2
+                await player.save()
+                await interaction.response.send_message("Successfully claimed 2 Starr Drops since you have Brawl Pass Plus!", ephemeral=True)
+                log.debug(f"{bp_msg} 2 Starr Drops are given. (User ID: {interaction.user.id})")
+                       
         elif bp_type == "Brawl Pass":
-            player.sdcount += 1
-            await player.save()
-            await interaction.response.send_message("Successfully claimed a Starr Drop since you have Brawl Pass!", ephemeral=True)
-            log.debug(f"{bp_msg} A Starr Drop is given. (User ID: {interaction.user.id})")
+             if player.sdcount == 50:
+                await interaction.response.send_message("Your inventory is full!", ephemeral=True)
+                return
+             else:
+                player.sdcount += 1
+                await player.save()
+                await interaction.response.send_message("Successfully claimed a Starr Drop since you have Brawl Pass!", ephemeral=True)
+                log.debug(f"{bp_msg} A Starr Drop is given. (User ID: {interaction.user.id})")
 
         else:
             await interaction.response.send_message("You can't use this command as you don't have Brawl Pass!", ephemeral=True)
