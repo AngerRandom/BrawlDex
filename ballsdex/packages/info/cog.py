@@ -19,6 +19,7 @@ from ballsdex.core.models import balls as countryballs
 from ballsdex.core.utils.formatting import pagify
 from ballsdex.core.utils.tortoise import row_count_estimate
 from ballsdex.settings import settings
+from tortoise.expressions import Q
 
 from .license import LicenseInfo
 
