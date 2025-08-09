@@ -270,13 +270,13 @@ class Info(commands.Cog):
             .values_list("ball_id")
             )
         trades = await Trade.filter(
-            Q(player1__discord_id=interaction.user.id) | Q(player2__discord_id=interaction.user.id)
+            Q(player1__discord_id=user_obj.id) | Q(player2__discord_id=user_obj.id)
         ).values_list("player1__discord_id", "player2__discord_id")
         trade_partners = set()
         for p1, p2 in trades:
-            if p1 != interaction.user.id:
+            if p1 != user_obj.id:
                 trade_partners.add(p1)
-            if p2 != interaction.user.id:
+            if p2 != user_obj.id:
                 trade_partners.add(p2)
         embed = discord.Embed(
             title=f"{user_obj.name}'s Profile",
