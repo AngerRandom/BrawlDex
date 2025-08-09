@@ -65,8 +65,6 @@ class UpgradeConfirmView(View):
         self.hp_emoji = bot.get_emoji(1399770718794809385)
         self.atk_emoji = bot.get_emoji(1399770723060289557)
         self.pp_emoji = bot.get_emoji(1364807487106191471)
-        self.but_conf = bot.get_emoji(1340497420441620530)
-        self.but_canc = bot.get_emoji(1340497398010613790)
         self.brawler_emoji = bot.get_emoji(self.model.emoji_id)
 
         self.current_hp = int(self.model.health * float(f"1.{self.brawler.health_bonus}")) if float(f"1.{self.brawler.health_bonus}") != 1.100 else int(self.model.health * 2)
@@ -78,14 +76,14 @@ class UpgradeConfirmView(View):
         self.new_hp = int(self.model.health * float(f"1.{future_health_bonus}")) if float(f"1.{future_health_bonus}") != 1.100 else int(self.model.health * 2)
         self.new_atk = int(self.model.attack * float(f"1.{future_attack_bonus}")) if float(f"1.{future_attack_bonus}") != 1.100 else int(self.model.attack * 2)
 
-    @button(label="Cancel", style=discord.ButtonStyle.danger, emoji=self.but_canc)
+    @button(label="Cancel", style=discord.ButtonStyle.danger, emoji=1340497398010613790)
     async def cancel_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
         if interaction.user != self.author:
             await interaction.response.send_message("This is not your interaction!", ephemeral=True)
             return
         await interaction.edit_original_response(content="The operation was cancelled.")
         
-    @button(label="Confirm", style=discord.ButtonStyle.success, emoji=self.but_conf)
+    @button(label="Confirm", style=discord.ButtonStyle.success, emoji=1340497420441620530)
     async def confirm_upgrade(self, interaction: discord.Interaction["BallsDexBot"], button: Button):
         if interaction.user != self.author:
             await interaction.response.send_message("This is not your interaction!", ephemeral=True)
