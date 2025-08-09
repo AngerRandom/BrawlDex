@@ -104,7 +104,7 @@ class UpgradeConfirmView(View):
             if isinstance(item, Button):
                 item.disabled = True
         try:
-            await self.interaction.edit_original_response(view=self)
+            await self.edit_original_response(view=self)
         except discord.NotFound:
             pass
 
