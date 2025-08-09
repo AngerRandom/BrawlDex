@@ -244,7 +244,7 @@ class PowerPoints(commands.GroupCog, group_name="powerpoints"):
             return
         await interaction.response.send_message(
             f"Are you sure you want to upgrade this {view.ind_str}?\n"
-            f"[{view.model.country}](<https://brawldex.fandom.com/wiki/{view.model.country.replace(" ", "_")}>){view.current_plvl_emoji}→{view.next_plvl_emoji} ({playerm.powerpoints}{view.pp_emoji}→{playerm.powerpoints-view.cost}{view.pp_emoji})\n"
+            f"**[{view.model.country}](<https://brawldex.fandom.com/wiki/{view.model.country.replace(" ", "_")}>)**{view.brawler_emoji}{view.current_plvl_emoji}→{view.next_plvl_emoji} ({playerm.powerpoints}{view.pp_emoji}→{playerm.powerpoints-view.cost}{view.pp_emoji})\n"
             f"{view.current_hp}{view.hp_emoji}→{view.new_hp}{view.hp_emoji}  {view.current_atk}{view.atk_emoji}→{view.new_atk}{view.atk_emoji}",
             view=view,
             ephemeral=False
