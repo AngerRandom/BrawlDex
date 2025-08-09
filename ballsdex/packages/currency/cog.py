@@ -219,6 +219,7 @@ class PowerPoints(commands.GroupCog, group_name="powerpoints"):
 
     @app_commands.command(name="upgrade")
     @app_commands.checks.cooldown(1, 5, key=lambda i: i.user.id)
+    @app_commands.checks.has_any_role(*settings.root_role_ids)
     async def pp_upgrade(
         self,
         interaction: discord.Interaction,
