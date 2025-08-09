@@ -33,7 +33,7 @@ async def inventory_privacy(
     if is_staff(interaction):
         return True
     if privacy_policy == PrivacyPolicy.DENY:
-        await interaction.followup.send(
+        msg = await interaction.followup.send(
             "This user has set their inventory to private.", ephemeral=True
         )
         if interaction.guild.id == settings.admin_guild_ids[0]:
