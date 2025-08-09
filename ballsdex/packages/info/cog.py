@@ -14,7 +14,7 @@ from discord.app_commands.translator import (
 from discord.ext import commands
 
 from ballsdex import __version__ as ballsdex_version
-from ballsdex.core.models import Ball, BallInstance, Player
+from ballsdex.core.models import Ball, BallInstance, Player, Trade
 from ballsdex.core.models import balls as countryballs
 from ballsdex.core.utils.formatting import pagify
 from ballsdex.core.utils.tortoise import row_count_estimate
