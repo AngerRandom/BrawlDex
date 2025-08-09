@@ -62,7 +62,7 @@ class Balls(app_commands.Group):
         hp_bonus: int | None = None,
         buttontext: str | None = None,
         buttonemoji: discord.Emoji | None = None,
-        usertimeout: int | None = None,
+        usertimeout: int = 0,
     ):
         spawned = 0
 
