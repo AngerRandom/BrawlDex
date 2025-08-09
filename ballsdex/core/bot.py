@@ -19,7 +19,6 @@ from discord import app_commands
 from discord.app_commands.translator import TranslationContextTypes, locale_str
 from discord.enums import Locale
 from discord.ext import commands
-from ballsdex.packages.countryballs.dailycaughtreset import dailycaughtreset
 from prometheus_client import Histogram
 from rich import box, print
 from rich.console import Console
@@ -45,6 +44,7 @@ from ballsdex.settings import settings
 
 if TYPE_CHECKING:
     from discord.ext.commands.bot import PrefixType
+    from ballsdex.packages.countryballs.dailycaughtreset import dailycaughtreset
 
 log = logging.getLogger("ballsdex.core.bot")
 http_counter = Histogram("discord_http_requests", "HTTP requests", ["key", "code"])
