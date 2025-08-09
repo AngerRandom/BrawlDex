@@ -429,6 +429,7 @@ class Balls(commands.GroupCog, group_name=settings.players_group_cog_name):
         ]
         if not countryball:
             return
+        await countryball.select_related("ball")
         if not countryball.is_tradeable:
             await interaction.response.send_message(
                 f"You cannot donate this {"skin" if countryball.ball.regime_id in SKIN_REGIMES else "brawler"}.", ephemeral=True
