@@ -13,6 +13,7 @@ import aiohttp
 import discord
 import discord.gateway
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from functools import partial
 from aiohttp import ClientTimeout
 from cachetools import TTLCache
 from discord import app_commands
@@ -393,7 +394,7 @@ class BallsDexBot(commands.AutoShardedBot):
             log.info("Attempting to enable the Daily Catch Reset...")
             try:
                 scheduler = AsyncIOScheduler()
-                scheduler.add_job("dailycaughtreset", 'cron', hour=9, minute=0)
+                scheduler.add_job(partial(dailycaughtreset, bot), 'cron', hour=9, minute=0)
                 scheduler.start()
                 asyncio.get_event_loop().run_forever()
                 log.info("Successfully enabled the Daily Catch Reset!")
