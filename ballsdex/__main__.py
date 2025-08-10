@@ -335,6 +335,7 @@ def main():
             disable_message_content=cli_flags.disable_message_content,
             disable_time_check=cli_flags.disable_time_check,
             skip_tree_sync=cli_flags.skip_tree_sync,
+            enable_catch_reset=cli_flags.enable_catch_reset,
         )
 
         loop.run_until_complete(init_sentry())
