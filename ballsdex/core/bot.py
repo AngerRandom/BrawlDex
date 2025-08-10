@@ -403,11 +403,10 @@ class BallsDexBot(commands.AutoShardedBot):
             log.warning("Daily Catch Reset is not enabled, you may need to reset the catches manually unless you enable it with '--enable-catch-reset' flag.")
 
     async def blacklist_check(self, interaction: discord.Interaction[Self]) -> bool:
-        blacklisted_emoji = await interaction.client.fetch_application_emoji(1389157054811476081)
         if interaction.user.id in self.blacklist:
             if interaction.type != discord.InteractionType.autocomplete:
                 await interaction.response.send_message(
-                    f"# {blacklisted_emoji} YOU HAVE BEEN BLACKLISTED"
+                    f"# YOU HAVE BEEN BLACKLISTED"
                     "\n\nThis account has violated our [Terms of Service](https://brawldex.fandom.com/wiki/Terms_of_Service). You have been blacklisted. For more information and appealing the blacklist, please visit our Discord server and make a ticket: {}".format(
                         settings.discord_invite
                     ),
@@ -417,7 +416,7 @@ class BallsDexBot(commands.AutoShardedBot):
         if interaction.guild_id and interaction.guild_id in self.blacklist_guild:
             if interaction.type != discord.InteractionType.autocomplete:
                 await interaction.response.send_message(
-                    f"# {blacklisted_emoji} THIS SERVER HAS BEEN BLACKLISTED"
+                    f"# THIS SERVER HAS BEEN BLACKLISTED"
                     "\n\nThis server has violated our [Terms of Service](https://brawldex.fandom.com/wiki/Terms_of_Service). It has been blacklisted. For more information and appealing the blacklist, please visit our Discord server and make a ticket: {}".format(
                         settings.discord_invite
                     ),
