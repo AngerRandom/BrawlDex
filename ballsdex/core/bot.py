@@ -44,8 +44,7 @@ from ballsdex.settings import settings
 
 if TYPE_CHECKING:
     from discord.ext.commands.bot import PrefixType
-    from ballsdex.packages.countryballs.dailycaughtreset import dailycaughtreset
-
+    
 log = logging.getLogger("ballsdex.core.bot")
 http_counter = Histogram("discord_http_requests", "HTTP requests", ["key", "code"])
 
@@ -390,6 +389,7 @@ class BallsDexBot(commands.AutoShardedBot):
             "is now operational![/green][/bold]\n"
         )
         if self.enable_catch_reset:
+            from ballsdex.packages.countryballs.dailycaughtreset import dailycaughtreset
             log.info("Attempting to enable the Daily Catch Reset...")
             try:
                 scheduler = AsyncIOScheduler()
