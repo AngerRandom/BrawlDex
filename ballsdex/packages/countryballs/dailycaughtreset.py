@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 log = logging.getLogger("ballsdex.packages.countryballs")
 
-async def dailycaughtreset(self, bot: "BallsDexBot"):
+async def dailycaughtreset(self):
     top_players = await Player.all().order_by("-dailycaught").limit(30)
     lines = []
     for i, player in enumerate(top_players, 1):
