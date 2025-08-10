@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 async def setup(bot: "BallsDexBot"):
-    channel = bot.get_channel(1295411468765888592)
+    channel = bot.get_channel(1404082071433117788)
     embed = discord.Embed(
         description=f":green_circle: {bot.user.mention} is now online!",
         color=discord.Colour.green(),
@@ -20,7 +20,7 @@ async def setup(bot: "BallsDexBot"):
     await channel.send(embed=embed)
 
 async def teardown(bot: "BallsDexBot"):
-    channel = bot.get_channel(1295411468765888592)
+    channel = bot.get_channel(1404082071433117788)
     embed = discord.Embed(
         description=f":red_circle: {bot.user.mention} is now offline!",
         color=discord.Colour.red(),
