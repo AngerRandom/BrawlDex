@@ -78,7 +78,7 @@ def sort_balls(
         )
     elif sort == SortingChoices.rarity:
         CUSTOM_REGIME_ORDER = [
-            35, 34, 19, 20, 21, 33, 40, 37, 36, 26, 16,
+            35, 34, 19, 20, 21, 27, 33, 40, 37, 36, 26, 16,
             25, 39, 8, 24, 7, 23, 38, 6, 22, 5
         ]
         REGIME_ORDER_LOOKUP = {regime_id: index for index, regime_id in enumerate(CUSTOM_REGIME_ORDER)}
