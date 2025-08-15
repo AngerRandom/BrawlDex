@@ -66,8 +66,8 @@ class Translator(app_commands.Translator):
             .replace("BallsDex", settings.bot_name)
         )
         if context.location in (
-            TranslationContextType.command_name,
-            TranslationContextType.subcommand_name,
+            TranslationContextTypes.command_name,
+            TranslationContextTypes.subcommand_name,
         ):
             text = text.replace(" ", "-").lower()
 
