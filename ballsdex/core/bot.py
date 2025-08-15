@@ -17,7 +17,7 @@ from functools import partial
 from aiohttp import ClientTimeout
 from cachetools import TTLCache
 from discord import app_commands
-from discord.app_commands.translator import TranslationContextTypes, locale_str
+from discord.app_commands.translator import TranslationContextTypes, locale_str, TranslationContextLocation
 from discord.enums import Locale
 from discord.ext import commands
 from prometheus_client import Histogram
@@ -66,8 +66,8 @@ class Translator(app_commands.Translator):
             .replace("BallsDex", settings.bot_name)
         )
         if context.location in (
-            TranslationContextTypes.command_name,
-            TranslationContextTypes.subcommand_name,
+            TranslationContextLocation.command_name,
+            TranslationContextLocation.subcommand_name,
         ):
             text = text.replace(" ", "-").lower()
 
