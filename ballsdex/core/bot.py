@@ -65,7 +65,10 @@ class Translator(app_commands.Translator):
             .replace("/balls", f"/{settings.players_group_cog_name}")
             .replace("BallsDex", settings.bot_name)
         )
-        if context.location in TranslationContextLocation.command_name:
+        if context.location in (
+            TranslationContextLocation.command_name,
+            TranslationContextLocation.group_name,
+        ):
             text = text.replace(" ", "-").lower()
 
         return text
