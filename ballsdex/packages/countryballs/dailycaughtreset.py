@@ -17,7 +17,7 @@ async def dailycaughtreset(self):
         lines.append(f"{i}. {player.discord_id} —  {player.dailycaught}")
     lb_text = "\n".join(lines)
     try:
-        await log_action(f"Daily caught has been reset.\n{lb_text}", self.bot)
+        await log_action(f"Daily caught has been reset.\n{lb_text}", self)
         await Player.filter(dailycaught__gt=0).update(dailycaught=0)
     except Exception as e:
         log.error("An error occured while triggering the daily caught reset", exc_info=e)
