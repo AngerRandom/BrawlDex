@@ -115,8 +115,7 @@ class Credits(commands.GroupCog, group_name="credits"):
     def __init__(self, bot: "BallsDexBot"):
         self.bot = bot
         self.CostByRarity = {"rare": 160, "super_rare": 430, "epic": 925, "mythic": 1900, "legendary": 3800}
-        self.ExcludeOptions = ["ultra_legendary",]
-        self.ExcludedItems = ["trunk"]
+        self.ExcludeOptions = ["ultra_legendary", "new_brawler"]
     
     @app_commands.command(name="info")
     @app_commands.checks.cooldown(1, 20, key=lambda i: i.channel.id)
@@ -161,11 +160,11 @@ class Credits(commands.GroupCog, group_name="credits"):
             The Brawler you want.
         """
         Reg = await Regime.get(id=brawler.regime_id)
-        if Reg.name.lower().strip().replace(" ", "_") in self.ExcludeOptions or brawler.country.lower() in self.ExcludedItems:
+        if Reg.name.lower().strip().replace(" ", "_") in self.ExcludeOptions:
             await interaction.response.send_message(f"{brawler.country} can not be claimed.",ephemeral=True)
             return
         if Reg.name.lower().strip().replace(" ", "_") not in self.CostByRarity:
-            await interaction.response.send_message(f"Non-brawlers can not currently be claimed.",ephemeral=True)
+            await interaction.response.send_message(f"Non-brawlers can not be claimed.",ephemeral=True)
             return
         
         playerm, _ = await PlayerModel.get_or_create(discord_id=interaction.user.id)
