@@ -116,6 +116,7 @@ class Credits(commands.GroupCog, group_name="credits"):
         self.bot = bot
         self.CostByRarity = {"rare": 160, "super_rare": 430, "epic": 925, "mythic": 1900, "legendary": 3800}
         self.ExcludeOptions = ["ultra_legendary",]
+        self.ExcludedItems = ["trunk"]
     
     @app_commands.command(name="info")
     @app_commands.checks.cooldown(1, 20, key=lambda i: i.channel.id)
@@ -160,7 +161,7 @@ class Credits(commands.GroupCog, group_name="credits"):
             The Brawler you want.
         """
         Reg = await Regime.get(id=brawler.regime_id)
-        if Reg.name.lower().strip().replace(" ", "_") in self.ExcludeOptions:
+        if Reg.name.lower().strip().replace(" ", "_") in self.ExcludeOptions or brawler.country.lower() in self.ExcludedItems:
             await interaction.response.send_message(f"{brawler.country} can not be claimed.",ephemeral=True)
             return
         if Reg.name.lower().strip().replace(" ", "_") not in self.CostByRarity:
