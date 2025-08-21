@@ -6,7 +6,7 @@ import discord
 from discord.ext import commands
 from tortoise.exceptions import DoesNotExist
 
-from ballsdex.core.models import GuildConfig
+from ballsdex.core.models import GuildConfig, SkinType, SpecialSkinToggle
 from ballsdex.packages.countryballs.countryball import BallSpawnView
 from ballsdex.packages.countryballs.spawn import BaseSpawnManager
 from ballsdex.settings import settings
@@ -64,13 +64,23 @@ class CountryBallsSpawner(commands.Cog):
             algo = settings.spawn_manager
 
         channel = guild.get_channel(self.cache[guild.id])
+        guild_conf = await GuildConfig.get(guild_id=guild.id)
         if not channel:
             log.warning(f"Lost channel {self.cache[guild.id]} for guild {guild.name}.")
             del self.cache[guild.id]
             return
         ball = await BallSpawnView.get_random(self.bot)
         ball.algo = algo
-        await ball.spawn(cast(discord.TextChannel, channel))
+        if ball.skin_type == SkinType.CHINESE_SKIN and (guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_CHINESE_ONLY or guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_BOTH):
+            await ball.spawn(cast(discord.TextChannel, channel))
+        elif ball.skin_type == SkinType.CHINESE_SKIN and (guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_NEITHER or guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_FANMADE_ONLY):
+            pass
+        if ball.skin_type == SkinType.FANMADE_SKIN and (guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_FANMADE_ONLY or guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_BOTH):
+            await ball.spawn(cast(discord.TextChannel, channel))
+        elif ball.skin_type == SkinType.FANMADE_SKIN and (guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_NEITHER or guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_CHINESE_ONLY):
+            pass
+        
+        
 
     @commands.Cog.listener()
     async def on_ballsdex_settings_change(
