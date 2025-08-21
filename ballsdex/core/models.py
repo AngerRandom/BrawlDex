@@ -175,6 +175,12 @@ class DiscordSnowflakeValidator(validators.Validator):
         if not 17 <= len(str(value)) <= 19:
             raise exceptions.ValidationError("Discord IDs are between 17 and 19 characters long")
 
+class SpecialSkinToggle(IntEnum):
+    ALLOW_NEITHER = 1
+    ALLOW_CHINESE_ONLY = 2
+    ALLOW_FANMADE_ONLY = 3
+    ALLOW_BOTH = 4
+
 class GuildConfig(models.Model):
     guild_id = fields.BigIntField(
         description="Discord guild ID", unique=True, validators=[DiscordSnowflakeValidator()]
@@ -189,6 +195,11 @@ class GuildConfig(models.Model):
     silent = fields.BooleanField(
         description="Whether the responses of guesses get sent as ephemeral or not",
         default=False,
+    )
+    special_skin_toggle = fields.IntEnumField(
+        SpecialSkinToggle,
+        description="Whether to allow spawning Chinese and Fanmade skins spawning.",
+        default=SpecialSkinToggle.ALLOW_NEITHER
     )
 
 class Regime(models.Model):
