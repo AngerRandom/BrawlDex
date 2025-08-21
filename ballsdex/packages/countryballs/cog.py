@@ -75,9 +75,13 @@ class CountryBallsSpawner(commands.Cog):
             await ball.spawn(cast(discord.TextChannel, channel))
         elif ball.skin_type == SkinType.CHINESE_SKIN and (guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_NEITHER or guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_FANMADE_ONLY):
             pass
-        if ball.skin_type == SkinType.FANMADE_SKIN and (guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_FANMADE_ONLY or guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_BOTH):
+        elif ball.skin_type == SkinType.FANMADE_SKIN and (guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_FANMADE_ONLY or guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_BOTH):
             await ball.spawn(cast(discord.TextChannel, channel))
         elif ball.skin_type == SkinType.FANMADE_SKIN and (guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_NEITHER or guild_conf.special_skin_toggle == SpecialSkinToggle.ALLOW_CHINESE_ONLY):
+            pass
+        elif ball.skin_type == SkinType.NOT_SKIN or ball.skin_type == SkinType.CLASSIC_SKIN or ball.skin_type == SkinType.PRO_SKIN:
+            await ball.spawn(cast(discord.TextChannel, channel))
+        else:
             pass
         
         
