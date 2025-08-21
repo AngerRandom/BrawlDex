@@ -402,7 +402,7 @@ class BallsDexBot(commands.AutoShardedBot):
             log.info("Attempting to enable the Daily Catch Reset...")
             try:
                 scheduler = AsyncIOScheduler()
-                scheduler.add_job(partial(dailycaughtreset, self), 'cron', hour=9, minute=0)
+                scheduler.add_job(partial(dailycaughtreset, self), 'cron', hour=9, minute=30)
                 scheduler.start()
                 log.info("Successfully enabled the Daily Catch Reset!")
             except Exception:
