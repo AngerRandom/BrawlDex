@@ -23,6 +23,13 @@ def image_display(image_link: str) -> SafeText:
     return mark_safe(f'<img src="/media/{transform_media(image_link)}" width="80%" />')
 
 
+class SpecialSkinToggle(models.IntegerChoices):
+    ALLOW_NEITHER = 1
+    ALLOW_CHINESE_ONLY = 2
+    ALLOW_FANMADE_ONLY = 3
+    ALLOW_BOTH = 4
+
+
 class GuildConfig(models.Model):
     guild_id = models.BigIntegerField(unique=True, help_text="Discord guild ID")
     spawn_channel = models.BigIntegerField(
@@ -32,6 +39,10 @@ class GuildConfig(models.Model):
         help_text="Whether the bot will spawn countryballs in this guild"
     )
     silent = models.BooleanField()
+    special_skin_toggle = models.SmallIntegerField(
+        choices=SpecialSkinToggle.choices,
+        help_text="Whether to allow spawning Chinese and Fanmade skins spawning."
+    )
 
     def __str__(self) -> str:
         return str(self.guild_id)
@@ -69,6 +80,12 @@ class TradeCooldownPolicy(models.IntegerChoices):
     COOLDOWN = 1
     BYPASS = 2
 
+class SkinType(models.IntegerChoices):
+    NOT_SKIN = 1
+    CLASSIC_SKIN = 2
+    PRO_SKIN = 3
+    CHINESE_SKIN = 4
+    FANMADE_SKIN = 5
 
 class Player(models.Model):
     discord_id = models.BigIntegerField(unique=True, help_text="Discord user ID")
@@ -208,6 +225,10 @@ class Special(models.Model):
 
 class Ball(models.Model):
     country = models.CharField(unique=True, max_length=48, verbose_name="Name")
+    skin_type = models.SmallIntegerField(
+        choices=SkinType.choices,
+        help_text="The type of the skin, use only if the item is a skin."
+    )
     health = models.IntegerField(help_text="Ball health stat")
     attack = models.IntegerField(help_text="Ball attack stat")
     rarity = models.FloatField(help_text="Rarity of this ball")
