@@ -115,7 +115,7 @@ class Credits(commands.GroupCog, group_name="credits"):
     def __init__(self, bot: "BallsDexBot"):
         self.bot = bot
         self.CostByRarity = {"rare": 160, "super_rare": 430, "epic": 925, "mythic": 1900, "legendary": 3800}
-        self.ExcludeOptions = ["ultra_legendary",]
+        self.ExcludeOptions = ["ultra_legendary", "new_brawler"]
     
     @app_commands.command(name="info")
     @app_commands.checks.cooldown(1, 20, key=lambda i: i.channel.id)
