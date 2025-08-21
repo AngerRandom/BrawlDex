@@ -246,6 +246,12 @@ class Special(models.Model):
     def __str__(self) -> str:
         return self.name
 
+class SkinType(IntEnum):
+    NOT_SKIN = 1
+    CLASSIC_SKIN = 2
+    PRO_SKIN = 3
+    CHINESE_SKIN = 4
+    FANMADE_SKIN = 5
 
 class Ball(models.Model):
     regime_id: int
@@ -277,6 +283,11 @@ class Ball(models.Model):
         description="Economical regime of this country",
         on_delete=fields.SET_NULL,
         null=True,
+    )
+    skin_type = fields.IntEnumField(
+        SkinType,
+        description="The type of the skin, use only if the item is a skin.",
+        default=SkinType.NOT_SKIN
     )
     health = fields.IntField(description="Ball health stat")
     attack = fields.IntField(description="Ball attack stat")
