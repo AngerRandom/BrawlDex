@@ -22,14 +22,6 @@ def transform_media(path: str) -> str:
 def image_display(image_link: str) -> SafeText:
     return mark_safe(f'<img src="/media/{transform_media(image_link)}" width="80%" />')
 
-
-class SpecialSkinToggle(models.IntegerChoices):
-    ALLOW_NEITHER = 1
-    ALLOW_CHINESE_ONLY = 2
-    ALLOW_FANMADE_ONLY = 3
-    ALLOW_BOTH = 4
-
-
 class GuildConfig(models.Model):
     guild_id = models.BigIntegerField(unique=True, help_text="Discord guild ID")
     spawn_channel = models.BigIntegerField(
@@ -39,11 +31,15 @@ class GuildConfig(models.Model):
         help_text="Whether the bot will spawn countryballs in this guild"
     )
     silent = models.BooleanField()
-    special_skin_toggle = models.SmallIntegerField(
-        choices=SpecialSkinToggle.choices,
-        help_text="Whether to allow spawning Chinese and Fanmade skins spawning."
+    chinese_skin_toggle = models.BooleanField(
+        help_text="Whether to allow spawning Chinese skins spawning.",
+        default=False
     )
-
+    fanmade_skin_toggle = models.BooleanField(
+        help_text="Whether to allow spawning Fanmade skins spawning.",
+        default=False
+    )
+    
     def __str__(self) -> str:
         return str(self.guild_id)
 
