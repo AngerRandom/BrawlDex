@@ -190,8 +190,12 @@ class GuildConfig(models.Model):
         description="Whether the responses of guesses get sent as ephemeral or not",
         default=False,
     )
-    special_skin_toggle = fields.BooleanField(
-        description="Whether to allow spawning Chinese and Fanmade skins spawning.",
+    chinese_skin_toggle = fields.BooleanField(
+        description="Whether to allow spawning Chinese skins spawning.",
+        default=False
+    )
+    fanmade_skin_toggle = fields.BooleanField(
+        description="Whether to allow spawning Fanmade skins spawning.",
         default=False
     )
 
