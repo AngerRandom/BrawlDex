@@ -317,7 +317,7 @@ class Staff(commands.GroupCog, group_name="staff"):
     @app_commands.checks.has_any_role(*settings.root_role_ids, 1357857303222816859)
     async def give(
         self,
-        interaction: discord.Interaction[BallsDexBot],
+        interaction: discord.Interaction["BallsDexBot"],
         countryball: BallTransform,
         user: discord.User,
         special: SpecialTransform | None = None,
