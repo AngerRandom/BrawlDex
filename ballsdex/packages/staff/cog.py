@@ -15,7 +15,7 @@ from ballsdex.packages.staff.cardgenerator import CardGenerator
 # from ballsdex.packages.staff.customcard import CardConfig, draw_card
 from ballsdex.settings import settings
 from ballsdex.core.utils.transformers import BallTransform, SpecialTransform
-from ballsdex.core.models import Ball, Special, Player
+from ballsdex.core.models import Ball, Special, Player, BallInstance
 
 if TYPE_CHECKING:
     from ballsdex.core.bot import BallsDexBot
