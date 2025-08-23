@@ -244,63 +244,6 @@ class Balls(app_commands.Group):
                 interaction.client,
             )
 
-    @app_commands.command()
-    @app_commands.checks.has_any_role(*settings.root_role_ids)
-    async def give(
-        self,
-        interaction: discord.Interaction[BallsDexBot],
-        countryball: BallTransform,
-        user: discord.User,
-        special: SpecialTransform | None = None,
-        health_bonus: int | None = None,
-        attack_bonus: int | None = None,
-    ):
-        """
-        Give the specified countryball to a player.
-
-        Parameters
-        ----------
-        countryball: Ball
-        user: discord.User
-        special: Special | None
-        health_bonus: int | None
-            Omit this to make it random.
-        attack_bonus: int | None
-            Omit this to make it random.
-        """
-        # the transformers triggered a response, meaning user tried an incorrect input
-        if interaction.response.is_done():
-            return
-        await interaction.response.defer(ephemeral=True, thinking=True)
-
-        player, created = await Player.get_or_create(discord_id=user.id)
-        instance = await BallInstance.create(
-            ball=countryball,
-            player=player,
-            attack_bonus=(
-                attack_bonus
-                if attack_bonus is not None
-                else random.randint(-settings.max_attack_bonus, settings.max_attack_bonus)
-            ),
-            health_bonus=(
-                health_bonus
-                if health_bonus is not None
-                else random.randint(-settings.max_health_bonus, settings.max_health_bonus)
-            ),
-            special=special,
-        )
-        await interaction.followup.send(
-            f"`{countryball.country}` {settings.collectible_name} was successfully given to "
-            f"`{user}`.\nSpecial: `{special.name if special else None}` • ATK: "
-            f"`{instance.attack_bonus:+d}` • HP:`{instance.health_bonus:+d}` "
-        )
-        await log_action(
-            f"{interaction.user} gave {settings.collectible_name} "
-            f"{countryball.country} to {user}. (Special={special.name if special else None} "
-            f"ATK={instance.attack_bonus:+d} HP={instance.health_bonus:+d}).",
-            interaction.client,
-        )
-
     @app_commands.command(name="info")
     @app_commands.checks.has_any_role(*settings.root_role_ids, *settings.admin_role_ids)
     async def balls_info(self, interaction: discord.Interaction[BallsDexBot], countryball_id: str):
