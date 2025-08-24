@@ -142,6 +142,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
         await interaction.followup.send(
             self.view.get_catch_message(ball, has_caught_before, interaction.user.mention, dailycatch, fullsd),
             allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
+            ephemeral=False,
         )
         await interaction.followup.edit_message(self.view.message.id, view=self.view)
 
