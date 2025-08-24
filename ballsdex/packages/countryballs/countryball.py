@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import io
 import math
+import time
 import random
 import string
 from datetime import datetime, timedelta, timezone
@@ -202,6 +203,7 @@ class BallSpawnView(View):
         self.voicefile = None
         self.skin_type = model.skin_type
         self.cached_spawn_message = None
+        self.catch_by_itself = None
 
     async def interaction_check(self, interaction: discord.Interaction["BallsDexBot"], /) -> bool:
         return await interaction.client.blacklist_check(interaction)
