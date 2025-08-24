@@ -29,6 +29,7 @@ class Config(commands.GroupCog):
         self.bot = bot
 
     @app_commands.command()
+    @app_commands.describe(silent="Whether to hide wrong/caught messages or not")
     @app_commands.checks.has_permissions(manage_guild=True)
     @app_commands.checks.bot_has_permissions(
         read_messages=True,
@@ -39,6 +40,7 @@ class Config(commands.GroupCog):
         self,
         interaction: discord.Interaction["BallsDexBot"],
         channel: Optional[discord.TextChannel] = None,
+        silent: bool = False,
     ):
         """
         Set or change the channel where countryballs will spawn.
@@ -59,7 +61,7 @@ class Config(commands.GroupCog):
                 )
                 return
 
-        view = AcceptTOSView(interaction, channel, user)
+        view = AcceptTOSView(interaction, channel, user, silent)
         embed = activation_embed.copy()
 
         guild = interaction.guild
