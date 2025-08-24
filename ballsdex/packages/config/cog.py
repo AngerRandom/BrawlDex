@@ -61,7 +61,7 @@ class Config(commands.GroupCog):
                 )
                 return
 
-        view = AcceptTOSView(interaction, channel, user)
+        view = AcceptTOSView(interaction, channel, user, silent)
         embed = activation_embed.copy()
 
         guild = interaction.guild
