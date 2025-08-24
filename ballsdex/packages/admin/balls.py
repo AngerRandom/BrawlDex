@@ -333,54 +333,6 @@ class Balls(app_commands.Group):
         )
         await log_action(f"{interaction.user} deleted {ball}({ball.pk}).", interaction.client)
 
-    @app_commands.command(name="transfer")
-    @app_commands.checks.has_any_role(*settings.root_role_ids)
-    async def balls_transfer(
-        self,
-        interaction: discord.Interaction[BallsDexBot],
-        countryball_id: str,
-        user: discord.User,
-    ):
-        """
-        Transfer a countryball to another user.
-
-        Parameters
-        ----------
-        countryball_id: str
-            The ID of the countryball you want to transfer.
-        user: discord.User
-            The user you want to transfer the countryball to.
-        """
-        try:
-            ballIdConverted = int(countryball_id, 16)
-        except ValueError:
-            await interaction.response.send_message(
-                f"The {settings.collectible_name} ID you gave is not valid.", ephemeral=True
-            )
-            return
-        try:
-            ball = await BallInstance.get(id=ballIdConverted).prefetch_related("player")
-            original_player = ball.player
-        except DoesNotExist:
-            await interaction.response.send_message(
-                f"The {settings.collectible_name} ID you gave does not exist.", ephemeral=True
-            )
-            return
-        player, _ = await Player.get_or_create(discord_id=user.id)
-        ball.player = player
-        await ball.save()
-
-        trade = await Trade.create(player1=original_player, player2=player)
-        await TradeObject.create(trade=trade, ballinstance=ball, player=original_player)
-        await interaction.response.send_message(
-            f"Transfered {ball}({ball.pk}) from {original_player} to {user}.",
-            ephemeral=True,
-        )
-        await log_action(
-            f"{interaction.user} transferred {ball}({ball.pk}) from {original_player} to {user}.",
-            interaction.client,
-        )
-
     @app_commands.command(name="reset")
     @app_commands.checks.has_any_role(*settings.root_role_ids)
     async def balls_reset(
