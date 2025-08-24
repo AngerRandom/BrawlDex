@@ -74,7 +74,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
                await interaction.response.send_message(f"{interaction.user.mention} GET OUT-\n-# they couldn't be timeouted.")
                self.button.disabled = True
                return
-        await interaction.response.defer(thinking=True)
+        await interaction.response.defer(thinking=True, ephemeral=config.silent)
 
         player, _ = await Player.get_or_create(discord_id=interaction.user.id)
         config, _ = await GuildConfig.get_or_create(guild_id=interaction.guild.id)
@@ -142,8 +142,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
             self.view.get_catch_message(ball, has_caught_before, interaction.user.mention, dailycatch, fullsd),
             allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
         )
-        await interaction.followup.edit_message(self.view.message.id, view=self.view)
-
+        await interaction.followup.edit_message(self.view.message.id, view=self.view, content=f"{self.view.cached_spawn_message}\n-# This {self.view.RegimeName.title()} was defeated by {interaction.user.name}")
 
 class BallSpawnView(View):
     """
@@ -196,6 +195,7 @@ class BallSpawnView(View):
         self.BlockedTimeout = 10
         self.DontCount = False
         self.voicefile = None
+        self.cached_spawn_message = None
 
     async def interaction_check(self, interaction: discord.Interaction["BallsDexBot"], /) -> bool:
         return await interaction.client.blacklist_check(interaction)
@@ -371,6 +371,7 @@ class BallSpawnView(View):
                     Names=self.name+"s".capitalize(),
                     NAMES=self.name+"s".upper(),
                 )
+                self.cached_spawn_message = spawn_message
                 if self.voicefile:
                     extension = self.voicefile.filename.split(".")[-1]
                     if extension not in ALLOWED_VOICE_EXTENSIONS:
