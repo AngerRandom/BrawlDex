@@ -362,6 +362,16 @@ class BallSpawnView(View):
                 ball, is_new, dailycatch, fullsd = await self.catch_ball(
                 bot_user, player=player, guild=channel.guild
                 )
+                await interaction.followup.send(
+                    self.get_catch_message(ball, is_new, bot_user.mention, dailycatch, fullsd),
+                    allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
+                    ephemeral=False,
+                )
+                if config.silent == True:
+                await interaction.followup.edit_message(self.message.id, view=self, content=f"{self.cached_spawn_message}\n-# This {self.RegimeName.title()} was defeated by {bot_user.name}")
+                else:
+                await interaction.followup.edit_message(self.message.id, view=self)
+
 
         ALLOWED_VOICE_EXTENSIONS = [
             "ogg",
