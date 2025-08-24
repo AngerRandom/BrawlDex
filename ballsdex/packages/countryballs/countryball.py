@@ -365,9 +365,9 @@ class BallSpawnView(View):
                     ephemeral=False,
                 )
                 if config.silent == True:
-                await interaction.followup.edit_message(self.message.id, view=self, content=f"{self.cached_spawn_message}\n-# This {self.RegimeName.title()} was defeated by {bot_user.name}")
+                    await interaction.followup.edit_message(self.message.id, view=self, content=f"{self.cached_spawn_message}\n-# This {self.RegimeName.title()} was defeated by {bot_user.name}")
                 else:
-                await interaction.followup.edit_message(self.message.id, view=self)
+                    await interaction.followup.edit_message(self.message.id, view=self)
 
         ALLOWED_VOICE_EXTENSIONS = [
             "ogg",
