@@ -74,10 +74,11 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
                await interaction.response.send_message(f"{interaction.user.mention} GET OUT-\n-# they couldn't be timeouted.")
                self.button.disabled = True
                return
-        await interaction.response.defer(thinking=True)
+        config, _ = await GuildConfig.get_or_create(guild_id=interaction.guild.id)
+        await interaction.response.defer(thinking=True, ephemeral=config.silent)
 
         player, _ = await Player.get_or_create(discord_id=interaction.user.id)
-        config, _ = await GuildConfig.get_or_create(guild_id=interaction.guild.id)
+        
         if self.view.caught:
             slow_message = random.choice(settings.slow_messages).format(
                 user=interaction.user.mention,
@@ -96,7 +97,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
                 NAMES=self.view.name+"s".upper(),
             )
 
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 slow_message,
                 ephemeral=config.silent,
                 allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
@@ -127,7 +128,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
                 wrong=wrong_name,
             )
 
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 wrong_message,
                 allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
                 ephemeral=config.silent,
