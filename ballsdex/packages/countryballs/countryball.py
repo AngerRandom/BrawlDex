@@ -144,7 +144,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
             allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
             ephemeral=False,
         )
-        await interaction.followup.edit_message(self.view.message.id, view=self.view, content=f"{self.view.cached_spawn_message}\n-# This {self.RegimeName.title()} is already been defeated by {interaction.user.name}")
+        await interaction.followup.edit_message(self.view.message.id, view=self.view, content=f"{self.view.cached_spawn_message}\n-# This {self.view.RegimeName.title()} is already been defeated by {interaction.user.name}")
 
 
 class BallSpawnView(View):
