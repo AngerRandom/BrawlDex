@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import io
+import asyncio
 import math
 import random
 import string
@@ -199,6 +200,7 @@ class BallSpawnView(View):
         self.DontCount = False
         self.voicefile = None
         self.cached_spawn_message = None
+        self.catch_by_itself = None
 
     async def interaction_check(self, interaction: discord.Interaction["BallsDexBot"], /) -> bool:
         return await interaction.client.blacklist_check(interaction)
@@ -349,6 +351,15 @@ class BallSpawnView(View):
             source = string.ascii_uppercase + string.ascii_lowercase + string.ascii_letters
             return "".join(random.choices(source, k=15))
 
+        async def auto_catch():
+            await asyncio.sleep(self.catch_by_itself)
+            if not self.caught:
+                bot_user = self.bot.user
+                player = await Player.get(discord_id=bot_user.id)
+                ball, is_new, dailycatch, fullsd = await self.catch_ball(
+                bot_user, player=player, guild=channel.guild
+                )
+
         ALLOWED_VOICE_EXTENSIONS = [
             "ogg",
             "mp3"
@@ -387,6 +398,12 @@ class BallSpawnView(View):
                         view=self,
                         file=discord.File(buffer, filename=f"VOICE_MSG.{extension}"),
                     )
+                    if self.catch_by_itself and type(self.catch_by_itself) == int:
+                        asyncio.create_task(auto_catch())
+                    elif not type(self.catch_by_itself) == int:
+                        raise ValueError("Auto catch duration must be an integer.")
+                    else:
+                        pass
                     return True
 
                 else:
@@ -395,6 +412,12 @@ class BallSpawnView(View):
                         view=self,
                         file=discord.File(file_location, filename=file_name),
                     )
+                    if self.catch_by_itself and type(self.catch_by_itself) == int:
+                        asyncio.create_task(auto_catch())
+                    elif not type(self.catch_by_itself) == int:
+                        raise ValueError("Auto catch duration must be an integer.")
+                    else:
+                        pass
                     return True
             else:
                 log.error("Missing permission to spawn ball in channel %s.", channel)
