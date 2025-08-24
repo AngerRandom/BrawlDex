@@ -365,12 +365,8 @@ class BallSpawnView(View):
                 await self.message.reply(
                     self.get_catch_message(ball, is_new, bot_user.mention, dailycatch, fullsd),
                     allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
-                    ephemeral=False,
                 )
-                if config.silent == True:
-                    await self.message.edit(self.message.id, view=self, content=f"{self.cached_spawn_message}\n-# This {self.RegimeName.title()} was defeated by {bot_user.name}")
-                else:
-                    await self.message.edit(self.message.id, view=self)
+                await self.message.edit(self.message.id, view=self)
 
 
         ALLOWED_VOICE_EXTENSIONS = [
