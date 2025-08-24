@@ -96,7 +96,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
                 NAMES=self.view.name+"s".upper(),
             )
 
-            await interaction.followup.send(
+            await interaction.response.send_message(
                 slow_message,
                 ephemeral=config.silent,
                 allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
@@ -127,7 +127,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
                 wrong=wrong_name,
             )
 
-            await interaction.followup.send(
+            await interaction.response.send_message(
                 wrong_message,
                 allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
                 ephemeral=config.silent,
