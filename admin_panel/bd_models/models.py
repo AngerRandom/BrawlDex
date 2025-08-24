@@ -223,7 +223,8 @@ class Ball(models.Model):
     country = models.CharField(unique=True, max_length=48, verbose_name="Name")
     skin_type = models.SmallIntegerField(
         choices=SkinType.choices,
-        help_text="The type of the skin, use only if the item is a skin."
+        help_text="The type of the skin, use only if the item is a skin.",
+        default=SkinType.NOT_SKIN
     )
     health = models.IntegerField(help_text="Ball health stat")
     attack = models.IntegerField(help_text="Ball attack stat")
