@@ -142,7 +142,10 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
             self.view.get_catch_message(ball, has_caught_before, interaction.user.mention, dailycatch, fullsd),
             allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
         )
-        await interaction.followup.edit_message(self.view.message.id, view=self.view, content=f"{self.view.cached_spawn_message}\n-# This {self.view.RegimeName.title()} was defeated by {interaction.user.name}")
+        if config.silent == True:
+            await interaction.followup.edit_message(self.view.message.id, view=self.view, content=f"{self.view.cached_spawn_message}\n-# This {self.view.RegimeName.title()} was defeated by {interaction.user.name}")
+        else:
+            await interaction.followup.edit_message(self.view.message.id, view=self.view)
 
 class BallSpawnView(View):
     """
