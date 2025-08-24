@@ -21,12 +21,14 @@ class AcceptTOSView(View):
         interaction: discord.Interaction["BallsDexBot"],
         channel: discord.TextChannel,
         new_player: discord.Member,
+        silent: bool,
     ):
         super().__init__()
         self.original_interaction = interaction
         self.channel = channel
         self.new_player = new_player
         self.message: Optional[discord.Message] = None
+        self.silent = silent
 
         self.add_item(
             Button(
@@ -62,6 +64,7 @@ class AcceptTOSView(View):
         config, created = await GuildConfig.get_or_create(guild_id=interaction.guild_id)
         config.spawn_channel = self.channel.id  # type: ignore
         config.enabled = True
+        config.silent = self.silent
         await config.save()
         interaction.client.dispatch(
             "ballsdex_settings_change", interaction.guild, channel=self.channel, enabled=True
