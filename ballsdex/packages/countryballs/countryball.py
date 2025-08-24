@@ -128,7 +128,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
                 wrong=wrong_name,
             )
 
-            await interaction.followup.send(
+            await interaction.response.send_message(
                 wrong_message,
                 allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
                 ephemeral=config.silent,
