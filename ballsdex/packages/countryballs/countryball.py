@@ -139,12 +139,12 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
             interaction.user, player=player, guild=interaction.guild
         )
 
-        await interaction.response.send_message(
+        await interaction.followup.send(
             self.view.get_catch_message(ball, has_caught_before, interaction.user.mention, dailycatch, fullsd),
             allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
             ephemeral=False,
         )
-        await interaction.followup.edit_message(self.view.message.id, view=self.view)
+        await interaction.followup.edit_message(self.view.message.id, view=self.view, content=f"{spawn_message}\n-# This {self.RegimeName.title()} is already been defeated by {interaction.user.name}")
 
 
 class BallSpawnView(View):
