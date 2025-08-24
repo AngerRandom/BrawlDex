@@ -75,7 +75,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
                self.button.disabled = True
                return
         config, _ = await GuildConfig.get_or_create(guild_id=interaction.guild.id)
-        await interaction.response.defer(thinking=True, ephemeral=False)
+        await interaction.response.defer(thinking=True, ephemeral=config.silent)
 
         player, _ = await Player.get_or_create(discord_id=interaction.user.id)
         
