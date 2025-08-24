@@ -366,7 +366,7 @@ class BallSpawnView(View):
                     self.get_catch_message(ball, is_new, bot_user.mention, dailycatch, fullsd),
                     allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
                 )
-                await self.message.edit(self.message.id, view=self)
+                await self.message.edit(view=self)
 
 
         ALLOWED_VOICE_EXTENSIONS = [
