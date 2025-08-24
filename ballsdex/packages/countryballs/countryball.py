@@ -25,6 +25,7 @@ from ballsdex.core.models import (
     TradeObject,
     balls,
     specials,
+    GuildConfig
 )
 from ballsdex.settings import settings
 
@@ -76,6 +77,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
         await interaction.response.defer(thinking=True)
 
         player, _ = await Player.get_or_create(discord_id=interaction.user.id)
+        config, _ = await GuildConfig.get_or_create(guild_id=interaction.guild.id)
         if self.view.caught:
             slow_message = random.choice(settings.slow_messages).format(
                 user=interaction.user.mention,
@@ -96,7 +98,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
 
             await interaction.followup.send(
                 slow_message,
-                ephemeral=True,
+                ephemeral=config.silent,
                 allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
             )
             return
@@ -128,7 +130,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
             await interaction.followup.send(
                 wrong_message,
                 allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
-                ephemeral=False,
+                ephemeral=config.silent,
             )
             return
 
