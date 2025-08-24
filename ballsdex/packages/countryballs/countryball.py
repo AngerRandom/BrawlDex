@@ -144,7 +144,7 @@ class CountryballNamePrompt(Modal, title=f"You're in a Brawl!"):
             allowed_mentions=discord.AllowedMentions(users=player.can_be_mentioned),
             ephemeral=False,
         )
-        await interaction.followup.edit_message(self.view.message.id, view=self.view, content=f"{spawn_message}\n-# This {self.RegimeName.title()} is already been defeated by {interaction.user.name}")
+        await interaction.followup.edit_message(self.view.message.id, view=self.view, content=f"{self.cached_spawn_message}\n-# This {self.RegimeName.title()} is already been defeated by {interaction.user.name}")
 
 
 class BallSpawnView(View):
@@ -199,6 +199,7 @@ class BallSpawnView(View):
         self.DontCount = False
         self.voicefile = None
         self.skin_type = model.skin_type
+        self.cached_spawn_message = None
 
     async def interaction_check(self, interaction: discord.Interaction["BallsDexBot"], /) -> bool:
         return await interaction.client.blacklist_check(interaction)
@@ -374,6 +375,7 @@ class BallSpawnView(View):
                     Names=self.name+"s".capitalize(),
                     NAMES=self.name+"s".upper(),
                 )
+                self.cached_spawn_message = spawn_message
                 if self.voicefile:
                     extension = self.voicefile.filename.split(".")[-1]
                     if extension not in ALLOWED_VOICE_EXTENSIONS:
