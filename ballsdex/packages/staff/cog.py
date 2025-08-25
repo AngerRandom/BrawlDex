@@ -288,8 +288,8 @@ class Staff(commands.GroupCog, group_name="staff"):
         try:
             name, shortname, enabled, tradeable, economy, regime, health, attack, pin, title, cardtext, catchnames, wikilink, pinlink, wildart, cardart = await asset_dump(self, brawler)
             filearray = []
-            wildfile = discord.File(fr"admin_panel/media/{wildart}")
-            cardfile = discord.File(fr"admin_panel/media/{cardart}")
+            wildfile = discord.File(fr"admin_panel/media/{wildart}") if wildart != "/ballsdex/core/image_generator/src/default.png" else discord.File("admin_panel/media/default.png")
+            cardfile = discord.File(fr"admin_panel/media/{cardart}") if cardart != "/ballsdex/core/image_generator/src/default.png" else discord.File("admin_panel/media/default.png")
             filearray.append(wildfile)
             filearray.append(cardfile)
             await interaction.response.send_message(
