@@ -113,7 +113,7 @@ class StarrDrop(commands.Cog):
                 reward = random.choices(["100pp", "500c", "epic_skin"], weights=[25, 25, 50], k=1)[0]
                 DROP_RARITY_EMOJI = interaction.client.get_emoji(DROP_RARITY_EMOJIS.get(rarity))
             elif rarity == "mythic":
-                  reward = random.choices(["1000c", "mythic_brawler", "mythic_skin"], weights=[20, 30, 50], k=1)[0]
+                reward = random.choices(["1000c", "mythic_brawler", "mythic_skin"], weights=[20, 30, 50], k=1)[0]
                 DROP_RARITY_EMOJI = interaction.client.get_emoji(DROP_RARITY_EMOJIS.get(rarity))
             elif rarity == "legendary":
                 DROP_RARITY_EMOJI = interaction.client.get_emoji(DROP_RARITY_EMOJIS.get(rarity))
