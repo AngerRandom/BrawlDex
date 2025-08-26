@@ -38,11 +38,11 @@ from ballsdex.core.models import (
     TradeObject,
 )
 from ballsdex.core.utils.formatting import pagify
+from ballsdex.packages.countryballs.countryball import BallSpawnView
 
 if TYPE_CHECKING:
     from ballsdex.core.bot import BallsDexBot
-    from ballsdex.packages.countryballs.countryball import BallSpawnView
-
+    
 """
 Notice:
 
