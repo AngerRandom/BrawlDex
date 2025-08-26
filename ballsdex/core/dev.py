@@ -38,6 +38,7 @@ from ballsdex.core.models import (
     TradeObject,
 )
 from ballsdex.core.utils.formatting import pagify
+from ballsdex.packages.countryballs.countryball import BallSpawnView
 
 if TYPE_CHECKING:
     from ballsdex.core.bot import BallsDexBot
@@ -254,6 +255,7 @@ class Dev(commands.Cog):
             "Friendship": Friendship,
             "Block": Block,
             "text_to_file": text_to_file,
+            "cbclass": BallSpawnView,
             "_": self._last_result,
             "__name__": "__main__",
         }
