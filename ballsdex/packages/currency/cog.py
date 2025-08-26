@@ -95,7 +95,10 @@ class Credits(commands.GroupCog, group_name="credits"):
         if cost is None:
             await interaction.response.send_message(f"{brawler.country} can not currently be claimed.",ephemeral=True)
             return
-        if playerm.credits >= cost:
+        if playerm.credits < cost:
+            await interaction.response.send_message(f"You don't have enough credits to claim {brawler.country}!",ephemeral=True)
+            return
+        else:
             await interaction.response.defer(thinking=True)
             playerm.credits -= cost
             await playerm.save(update_fields=("credits",))
@@ -111,7 +114,7 @@ class Credits(commands.GroupCog, group_name="credits"):
                 await interaction.followup.send(interaction.user.mention+", your Brawler has been claimed.\n\n"+data, file=file, view=view)
             finally:
                 file.close()
-                log.debug(f"{interaction.user.id} claimed a {brawler.country}")       
+                log.debug(f"{interaction.user.id} claimed a {brawler.country}")
 
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(dms=True, private_channels=True, guilds=True)
