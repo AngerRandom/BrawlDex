@@ -121,6 +121,7 @@ class StarrDrop(commands.Cog):
                     ["legendary_brawler", "legendary_skin", "ultra_legendary", "ultimate_skin", "hypercharged_skin"],
                     weights=[30, 45, 3, 17, 5],
                     k=1
+                )
 
             if reward.endswith("pp") or reward.endswith("c"):
                 amount = int(reward.rstrip("pc"))
