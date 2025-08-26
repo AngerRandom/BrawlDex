@@ -255,7 +255,7 @@ class Dev(commands.Cog):
             "Friendship": Friendship,
             "Block": Block,
             "text_to_file": text_to_file,
-            "cbclass": "BallSpawnView",
+            "cbclass": BallSpawnView,
             "_": self._last_result,
             "__name__": "__main__",
         }
