@@ -98,6 +98,7 @@ class BallAdmin(admin.ModelAdmin):
                     "emoji_id",
                     "economy",
                     "regime",
+                    "item_type",
                 ],
             },
         ),
