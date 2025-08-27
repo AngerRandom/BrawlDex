@@ -6,7 +6,7 @@ import discord
 from discord.ext import commands
 from tortoise.exceptions import DoesNotExist
 
-from ballsdex.core.models import GuildConfig, SkinType
+from ballsdex.core.models import GuildConfig, ItemType
 from ballsdex.packages.countryballs.countryball import BallSpawnView
 from ballsdex.packages.countryballs.spawn import BaseSpawnManager
 from ballsdex.settings import settings
@@ -71,11 +71,13 @@ class CountryBallsSpawner(commands.Cog):
             return
         ball = await BallSpawnView.get_random(self.bot)
         ball.algo = algo
-        if ball.skin_type == SkinType.CHINESE_SKIN and guild_conf.chinese_skin_toggle == True:
+        if ball.model.item_type == ItemType.CHINESE_SKIN and guild_conf.chinese_skin_toggle:
             await ball.spawn(cast(discord.TextChannel, channel))
-        elif ball.skin_type == SkinType.FANMADE_SKIN and guild_conf.fanmade_skin_toggle == True:
+        elif ball.model.item_type == ItemType.FANMADE_SKIN and guild_conf.fanmade_skin_toggle:
             await ball.spawn(cast(discord.TextChannel, channel))
-        elif ball.skin_type == SkinType.NOT_SKIN or ball.skin_type == SkinType.CLASSIC_SKIN or ball.skin_type == SkinType.PRO_SKIN:
+        elif ball.model.item_type == ItemType.FANMADE_BRAWLER and guild_conf.fanmade_brawler_toggle:
+            await ball.spawn(cast(discord.TextChannel, channel))
+        elif ball.model.skin_type == ItemType.BRAWLER or ball.model.item_type == ItemType.SKIN or ball.model.item_type == ItemType.PRO_SKIN or ball.model.item_type == ItemType.NEW_BRAWLER or ball.model.item_type == ItemType.NEW_SKIN:
             await ball.spawn(cast(discord.TextChannel, channel))
         else:
             pass
