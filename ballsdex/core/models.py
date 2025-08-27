@@ -256,7 +256,8 @@ class ItemType(IntEnum):
     FANMADE_SKIN = 5
     CHINA_SKIN = 6
     PRO_SKIN = 7
-    LIMITED = 8
+    LIMITED_BRAWLER = 8
+    LIMITED_SKIN = 9
     
 
 class Ball(models.Model):
