@@ -530,10 +530,13 @@ class BallInstance(models.Model):
         skin_theme = ""
         skin_theme_emoji = ""
         skin_type = ""
+        new_emoji = ""
         skin_type_emoji = ""
         formatted_second_row = ""
         if self.ball.regime.name in RARITY_EMOJIS.keys():
             rarity_emoji = interaction.client.get_emoji(RARITY_EMOJIS.get(self.ball.regime.name))
+        if self.countryball.item_type == ItemType.NEW_BRAWLER or self.ball.item_type == ItemType.NEW_SKIN:
+            new_emoji = interaction.client.get_emoji(1387510759671595058)
         if self.countryball.economy_id in SKIN_THEMES.keys():
             skin_theme = f"[{self.ball.economy.name}](https://brawldex.fandom.com/wiki/{self.ball.economy.name.replace(" ", "_")})"
             skin_theme_emoji = interaction.client.get_emoji(SKIN_THEMES.get(self.countryball.economy_id))
@@ -543,7 +546,7 @@ class BallInstance(models.Model):
         elif self.countryball.item_type == ItemType.CHINESE_SKIN:
             skin_type = "[China](<https://brawldex.fandom.com/wiki/China>)"
             skin_type_emoji = interaction.client.get_emoji(1372264199174230106)
-        elif self.countryball.item_type == Item.FANMADE_SKIN:
+        elif self.countryball.item_type == ItemType.FANMADE_SKIN or self.countryball.item_type == ItemType.FANMADE_BRAWLER:
             skin_type = "[Fanmade](<https://brawldex.fandom.com/wiki/Fanmade>)"
             skin_type_emoji = interaction.client.get_emoji(1365147307829497967)
         if skin_theme != "":
@@ -577,14 +580,14 @@ class BallInstance(models.Model):
             formatted_brawler_name = self.countryball.country.replace(" ", "_")
         if formatted_second_row != "":
             content = (
-                f"[{self.countryball.country}](<https://brawldex.fandom.com/wiki/{formatted_brawler_name}>) {emoji}{plevel_emoji}{rarity_emoji} {formatted_special_text}\n"
+                f"[{self.countryball.country}](<https://brawldex.fandom.com/wiki/{formatted_brawler_name}>) {emoji}{plevel_emoji}{rarity_emoji}{new_emoji} {formatted_special_text}\n"
                 f"{formatted_second_row}\n"
                 f"Defeated on {format_dt(self.catch_date)} (`#{self.pk:0X}`)\n"
                 f"{trade_content}"
             )
         else:
             content = (
-                f"[{self.countryball.country}](<https://brawldex.fandom.com/wiki/{formatted_brawler_name}>) {emoji}{plevel_emoji}{rarity_emoji} {formatted_special_text}\n"
+                f"[{self.countryball.country}](<https://brawldex.fandom.com/wiki/{formatted_brawler_name}>) {emoji}{plevel_emoji}{rarity_emoji}{new_emoji} {formatted_special_text}\n"
                 f"Defeated on {format_dt(self.catch_date)} (`#{self.pk:0X}`)\n"
                 f"{trade_content}"
             )
