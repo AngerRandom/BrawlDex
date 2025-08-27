@@ -71,13 +71,13 @@ class CountryBallsSpawner(commands.Cog):
             return
         ball = await BallSpawnView.get_random(self.bot)
         ball.algo = algo
-        if ball.model.item_type == ItemType.CHINESE_SKIN and guild_conf.chinese_skin_toggle:
+        if ball.item_type == ItemType.CHINESE_SKIN and guild_conf.chinese_skin_toggle:
             await ball.spawn(cast(discord.TextChannel, channel))
-        elif ball.model.item_type == ItemType.FANMADE_SKIN and guild_conf.fanmade_skin_toggle:
+        elif ball.item_type == ItemType.FANMADE_SKIN and guild_conf.fanmade_skin_toggle:
             await ball.spawn(cast(discord.TextChannel, channel))
-        elif ball.model.item_type == ItemType.FANMADE_BRAWLER and guild_conf.fanmade_brawler_toggle:
+        elif ball.item_type == ItemType.FANMADE_BRAWLER and guild_conf.fanmade_brawler_toggle:
             await ball.spawn(cast(discord.TextChannel, channel))
-        elif ball.model.skin_type == ItemType.BRAWLER or ball.model.item_type == ItemType.SKIN or ball.model.item_type == ItemType.PRO_SKIN or ball.model.item_type == ItemType.NEW_BRAWLER or ball.model.item_type == ItemType.NEW_SKIN:
+        elif ball.item_type == ItemType.BRAWLER or ball.item_type == ItemType.SKIN or ball.item_type == ItemType.PRO_SKIN or ball.item_type == ItemType.NEW_BRAWLER or ball.item_type == ItemType.NEW_SKIN:
             await ball.spawn(cast(discord.TextChannel, channel))
         else:
             pass
