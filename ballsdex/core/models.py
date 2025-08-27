@@ -537,13 +537,13 @@ class BallInstance(models.Model):
         if self.countryball.economy_id in SKIN_THEMES.keys():
             skin_theme = f"[{self.ball.economy.name}](https://brawldex.fandom.com/wiki/{self.ball.economy.name.replace(" ", "_")})"
             skin_theme_emoji = interaction.client.get_emoji(SKIN_THEMES.get(self.countryball.economy_id))
-        if self.countryball.skin_type == SkinType.PRO_SKIN:
+        if self.countryball.item_type == ItemType.PRO_SKIN
             skin_type = "[Pro](<https://brawldex.fandom.com/wiki/Pro>)"
             skin_type_emoji = interaction.client.get_emoji(1385477217269583892)
-        elif self.countryball.skin_type == SkinType.CHINESE_SKIN:
+        elif self.countryball.item_type == ItemType.CHINESE_SKIN:
             skin_type = "[China](<https://brawldex.fandom.com/wiki/China>)"
             skin_type_emoji = interaction.client.get_emoji(1372264199174230106)
-        elif self.countryball.skin_type == SkinType.FANMADE_SKIN:
+        elif self.countryball.item_type == Item.FANMADE_SKIN:
             skin_type = "[Fanmade](<https://brawldex.fandom.com/wiki/Fanmade>)"
             skin_type_emoji = interaction.client.get_emoji(1365147307829497967)
         if skin_theme != "":
