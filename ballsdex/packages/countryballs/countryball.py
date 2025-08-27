@@ -201,7 +201,7 @@ class BallSpawnView(View):
         self.BlockedTimeout = 10
         self.DontCount = False
         self.voicefile = None
-        self.skin_type = model.skin_type
+        self.item_type = model.item_type
         self.cached_spawn_message = None
         self.catch_by_itself = None
 
