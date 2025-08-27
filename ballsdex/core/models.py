@@ -543,7 +543,7 @@ class BallInstance(models.Model):
         if self.countryball.item_type == ItemType.PRO_SKIN:
             skin_type = "[Pro](<https://brawldex.fandom.com/wiki/Pro>)"
             skin_type_emoji = interaction.client.get_emoji(1385477217269583892)
-        elif self.countryball.item_type == ItemType.CHINESE_SKIN:
+        elif self.countryball.item_type == ItemType.CHINA_SKIN:
             skin_type = "[China](<https://brawldex.fandom.com/wiki/China>)"
             skin_type_emoji = interaction.client.get_emoji(1372264199174230106)
         elif self.countryball.item_type == ItemType.FANMADE_SKIN or self.countryball.item_type == ItemType.FANMADE_BRAWLER:
