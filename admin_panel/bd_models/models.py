@@ -39,6 +39,10 @@ class GuildConfig(models.Model):
         help_text="Whether to allow spawning Fanmade skins spawning.",
         default=False
     )
+    fanmade_brawler_toggle = models.BooleanField(
+        help_text="Whether to allow spawning Fanmade brawlers spawning.",
+        default=False
+    )
     
     def __str__(self) -> str:
         return str(self.guild_id)
@@ -76,12 +80,15 @@ class TradeCooldownPolicy(models.IntegerChoices):
     COOLDOWN = 1
     BYPASS = 2
 
-class SkinType(models.IntegerChoices):
-    NOT_SKIN = 1
-    CLASSIC_SKIN = 2
-    PRO_SKIN = 3
-    CHINESE_SKIN = 4
+class ItemType(models.IntegerChoices):
+    BRAWLER = 0
+    SKIN = 1
+    NEW_BRAWLER = 2
+    NEW_SKIN = 3
+    FANMADE_BRAWLER = 4
     FANMADE_SKIN = 5
+    CHINA_SKIN = 6
+    PRO_SKIN = 7
 
 class Player(models.Model):
     discord_id = models.BigIntegerField(unique=True, help_text="Discord user ID")
@@ -221,10 +228,10 @@ class Special(models.Model):
 
 class Ball(models.Model):
     country = models.CharField(unique=True, max_length=48, verbose_name="Name")
-    skin_type = models.SmallIntegerField(
-        choices=SkinType.choices,
-        help_text="The type of the skin, use only if the item is a skin.",
-        default=SkinType.NOT_SKIN
+    item_type = models.SmallIntegerField(
+        choices=ItemType.choices,
+        help_text="The type of the item",
+        default=ItemType.BRAWLER
     )
     health = models.IntegerField(help_text="Ball health stat")
     attack = models.IntegerField(help_text="Ball attack stat")
