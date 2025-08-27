@@ -71,7 +71,7 @@ class CountryBallsSpawner(commands.Cog):
             return
         ball = await BallSpawnView.get_random(self.bot)
         ball.algo = algo
-        if ball.item_type == ItemType.CHINESE_SKIN and guild_conf.chinese_skin_toggle:
+        if ball.item_type == ItemType.CHINA_SKIN and guild_conf.chinese_skin_toggle:
             await ball.spawn(cast(discord.TextChannel, channel))
         elif ball.item_type == ItemType.FANMADE_SKIN and guild_conf.fanmade_skin_toggle:
             await ball.spawn(cast(discord.TextChannel, channel))
