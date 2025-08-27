@@ -89,6 +89,9 @@ class ItemType(models.IntegerChoices):
     FANMADE_SKIN = 5
     CHINA_SKIN = 6
     PRO_SKIN = 7
+    LIMITED_BRAWLER = 8
+    LIMITED_SKIN = 9
+    
 
 class Player(models.Model):
     discord_id = models.BigIntegerField(unique=True, help_text="Discord user ID")
