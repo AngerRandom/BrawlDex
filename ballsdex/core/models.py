@@ -198,6 +198,10 @@ class GuildConfig(models.Model):
         description="Whether to allow spawning Fanmade skins spawning.",
         default=False
     )
+    fanmade_brawler_toggle = fields.BooleanField(
+        description="Whether to allow spawning Fanmade brawlers spawning.",
+        default=False
+    )
 
 class Regime(models.Model):
     name = fields.CharField(max_length=64)
@@ -243,12 +247,16 @@ class Special(models.Model):
     def __str__(self) -> str:
         return self.name
 
-class SkinType(IntEnum):
-    NOT_SKIN = 1
-    CLASSIC_SKIN = 2
-    PRO_SKIN = 3
-    CHINESE_SKIN = 4
+class ItemType(IntEnum):
+    BRAWLER = 0
+    SKIN = 1
+    NEW_BRAWLER = 2
+    NEW_SKIN = 3
+    FANMADE_BRAWLER = 4
     FANMADE_SKIN = 5
+    CHINA_SKIN = 6
+    PRO_SKIN = 7
+    
 
 class Ball(models.Model):
     regime_id: int
@@ -281,10 +289,10 @@ class Ball(models.Model):
         on_delete=fields.SET_NULL,
         null=True,
     )
-    skin_type = fields.IntEnumField(
-        SkinType,
-        description="The type of the skin, use only if the item is a skin.",
-        default=SkinType.NOT_SKIN
+    item_type = fields.IntEnumField(
+        ItemType,
+        description="The type of the item",
+        default=ItemType.BRAWLER
     )
     health = fields.IntField(description="Ball health stat")
     attack = fields.IntField(description="Ball attack stat")
