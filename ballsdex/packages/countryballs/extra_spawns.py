@@ -17,14 +17,14 @@ async def pay_to_win_spawner(self):
         options = [None, "Brawl Pass", "Brawl Pass Plus"]
         weights = [40, 40, 20]
         picked_special = random.choices(options, weights=weights, k=1)[0]
-        if picked_special == None:
+        if not picked_special:
             pass
         else:
             special_obj = await Special.get(name=str(picked_special))
         try:
              ball = await BallSpawnView.get_random(self.bot)
              ball.special = special_obj
-             await ball.spawn(bot.get_channel(channel_id))
+             await ball.spawn(self.bot.get_channel(channel_id))
 
         except Exception as e:
             log.error(f"An error occurred (P2W): {e}")
@@ -36,7 +36,7 @@ async def basic_spawner(self):
     while True:
         try:
              ball = await BallSpawnView.get_random(self.bot)
-             await ball.spawn(bot.get_channel(channel_id))
+             await ball.spawn(self.bot.get_channel(channel_id))
 
         except Exception as e:
             log.error(f"An error occurred (Basic): {e}")
