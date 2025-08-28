@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 log = logging.getLogger("ballsdex.packages.countryballs.extra_spawns")
 
-async def pay_to_win_spawner(self, bot: "BallsDexBot"):
+async def pay_to_win_spawner(self):
     channel_id = 1391136498769723432
     while True:
         special_obj = ""
@@ -22,7 +22,7 @@ async def pay_to_win_spawner(self, bot: "BallsDexBot"):
         else:
             special_obj = await Special.get(name=str(picked_special))
         try:
-             ball = await BallSpawnView.get_random(bot)
+             ball = await BallSpawnView.get_random(self.bot)
              ball.special = special_obj
              await ball.spawn(bot.get_channel(channel_id))
 
@@ -31,11 +31,11 @@ async def pay_to_win_spawner(self, bot: "BallsDexBot"):
 
         await asyncio.sleep(180)
 
-async def basic_spawner(self, bot: "BallsDexBot"):
+async def basic_spawner(self):
     channel_id = 1295410565765922862
     while True:
         try:
-             ball = await BallSpawnView.get_random(bot)
+             ball = await BallSpawnView.get_random(self.bot)
              await ball.spawn(bot.get_channel(channel_id))
 
         except Exception as e:
