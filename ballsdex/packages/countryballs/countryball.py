@@ -405,8 +405,6 @@ class BallSpawnView(View):
                     )
                     if self.catch_by_itself and type(self.catch_by_itself) == int:
                         asyncio.create_task(auto_catch())
-                    elif not type(self.catch_by_itself) == int:
-                        raise ValueError("Auto catch duration must be an integer.")
                     else:
                         pass
                     return True
