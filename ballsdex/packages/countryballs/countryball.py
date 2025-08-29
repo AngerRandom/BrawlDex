@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import io
+import re aa regex
 import math
 import asyncio
 import random
@@ -26,7 +27,8 @@ from ballsdex.core.models import (
     TradeObject,
     balls,
     specials,
-    GuildConfig
+    GuildConfig,
+    ItemType
 )
 from ballsdex.settings import settings
 
@@ -336,19 +338,9 @@ class BallSpawnView(View):
         self.catch_button.callback = self.catch_button_cb_wrapper
         self.add_item(self.catch_button)
         
-        rid = self.model.regime_id
-        if rid == 22 or rid == 23 or rid == 24 or rid == 25 or rid == 26 or rid == 27 or rid == 35 or rid == 37 or rid == 38 or rid == 39 or rid == 40:
-            self.RegimeName = "skin"
-        elif rid == 28:
-            self.RegimeName = "gadget"
-        elif rid == 29:
-            self.RegimeName = "star power"
-        elif rid == 30 or rid == 31 or rid == 32:
-            self.RegimeName = "gear"
-        elif rid == 33:
-            self.RegimeName = "hypercharge"
-        else:
-            self.RegimeName = "brawler"
+        ittype = self.item_type.lower().replace("_", " ")
+        self.RegimeName = regex.findall(r'brawler|skin', ittype)[0]
+        
 
         def generate_random_name():
             source = string.ascii_uppercase + string.ascii_lowercase + string.ascii_letters
