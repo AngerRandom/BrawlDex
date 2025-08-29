@@ -184,7 +184,9 @@ class Economy(models.Model):
     name = fields.CharField(max_length=64)
     icon = fields.CharField(max_length=200, description="512x512 PNG image")
     emoji = fields.BigIntField(
-        description="Emoji ID for this economy", validators=[DiscordSnowflakeValidator()]
+        description="Emoji ID for this economy", 
+        validators=[DiscordSnowflakeValidator()],
+        null=True,
     )
 
     def __str__(self):
