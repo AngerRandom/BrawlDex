@@ -517,7 +517,7 @@ class BallInstance(models.Model):
             rarity_emoji = interaction.client.get_emoji(RARITY_EMOJIS.get(self.ball.regime.name))
         if self.countryball.item_type == ItemType.NEW_BRAWLER or self.ball.item_type == ItemType.NEW_SKIN:
             new_emoji = interaction.client.get_emoji(1387510759671595058)
-            if not self.ball.economy_id not in EXCLUDED_ECONOMIES:
+        if self.ball.economy_id not in EXCLUDED_ECONOMIES:
             skin_theme = f"[{self.ball.economy.name}](https://brawldex.fandom.com/wiki/{self.ball.economy.name.replace(" ", "_")})"
             skin_theme_emoji = interaction.client.get_emoji(self.ball.economy.emoji)
         if self.countryball.item_type == ItemType.PRO_SKIN:
