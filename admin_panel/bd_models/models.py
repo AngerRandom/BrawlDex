@@ -91,6 +91,9 @@ class ItemType(models.IntegerChoices):
     PRO_SKIN = 7
     LIMITED_BRAWLER = 8
     LIMITED_SKIN = 9
+    SILVER_TITLE = 10
+    GOLDEN_TITLE = 11
+    BLING_TITLE = 12
     
 
 class Player(models.Model):
