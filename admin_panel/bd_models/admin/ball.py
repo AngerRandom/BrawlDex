@@ -80,6 +80,13 @@ class EconomyAdmin(admin.ModelAdmin):
     def icon_image(self, obj: Economy):
         return mark_safe(f'<img src="/media/{transform_media(str(obj.icon))}" height=30px />')
 
+    @admin.display(description="Emoji")
+    def emoji(self, obj: Economy):
+        return mark_safe(
+            f'<img src="https://cdn.discordapp.com/emojis/{obj.emoji}.png?size=40" '
+            f'title="ID: {obj.emoji}" />'
+        )
+
 
 @admin.register(Ball)
 class BallAdmin(admin.ModelAdmin):
