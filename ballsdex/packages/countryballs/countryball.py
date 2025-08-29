@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import io
-import re aa regex
+import re as regex
 import math
 import asyncio
 import random
@@ -338,7 +338,7 @@ class BallSpawnView(View):
         self.catch_button.callback = self.catch_button_cb_wrapper
         self.add_item(self.catch_button)
         
-        ittype = self.item_type.lower().replace("_", " ")
+        ittype = self.item_type.name.lower().replace("_", " ")
         self.RegimeName = regex.findall(r'brawler|skin', ittype)[0]
         
 
