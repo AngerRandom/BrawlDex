@@ -104,37 +104,6 @@ RARITY_EMOJIS = {
     "Mythic Pro Skin": 1329613573843980378,
     "Hyper Pro Skin": 1329613598720393337
 }
-SKIN_THEMES = {
-    10: 1385477217269583892,
-    14: 1329613598720393337,
-    15: 1372225682033344664,
-    17: 1372220233049182258,
-    18: 1369762730734784633,
-    19: 1370091604899135509,
-    20: 1372259301908943040,
-    21: 1371999594824859699,
-    23: 1365217370003607603,
-    25: 1365675071036850207,
-    26: 1365097535059923105,
-    27: 1365865221994053673,
-    28: 1366418988862541854,
-    29: 1366417853602988044,
-    30: 1366418448636182579,
-    31: 1379175234992865473,
-    33: 1379186083916550154,
-    35: 1379191629596065972,
-    36: 1374216807350800405,
-    34: 1390760824984961034,
-    22: 1387762302270570526,
-    24: 1387762302270570526,
-    41: 1395720684608684112,
-    40: 1391777588074250311,
-    39: 1391735410320998414,
-    38: 1391732859685048390,
-    37: 1391308688320495636,
-    42: 1391774692389552289,
-    32: 1379137569564000417
-}
 FAME_SPECIALS = [
     9,
     10,
@@ -535,8 +504,6 @@ class BallInstance(models.Model):
         special_wiki_link = ""
         formatted_special_text = ""
         rarity_emoji = ""
-        skin_theme = ""
-        skin_theme_emoji = ""
         skin_type = ""
         new_emoji = ""
         skin_type_emoji = ""
@@ -545,9 +512,8 @@ class BallInstance(models.Model):
             rarity_emoji = interaction.client.get_emoji(RARITY_EMOJIS.get(self.ball.regime.name))
         if self.countryball.item_type == ItemType.NEW_BRAWLER or self.ball.item_type == ItemType.NEW_SKIN:
             new_emoji = interaction.client.get_emoji(1387510759671595058)
-        if self.countryball.economy_id in SKIN_THEMES.keys():
-            skin_theme = f"[{self.ball.economy.name}](https://brawldex.fandom.com/wiki/{self.ball.economy.name.replace(" ", "_")})"
-            skin_theme_emoji = interaction.client.get_emoji(SKIN_THEMES.get(self.countryball.economy_id))
+        skin_theme = f"[{self.ball.economy.name}](https://brawldex.fandom.com/wiki/{self.ball.economy.name.replace(" ", "_")})"
+        skin_theme_emoji = interaction.client.get_emoji(self.ball.economy.emoji)
         if self.countryball.item_type == ItemType.PRO_SKIN:
             skin_type = "[Pro](<https://brawldex.fandom.com/wiki/Pro>)"
             skin_type_emoji = interaction.client.get_emoji(1385477217269583892)
