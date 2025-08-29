@@ -168,6 +168,7 @@ class Player(models.Model):
 class Economy(models.Model):
     name = models.CharField(max_length=64)
     icon = models.ImageField(max_length=200, help_text="512x512 PNG image")
+    emoji = models.BigIntegerField(help_text="Emoji ID for this economy")
 
     def __str__(self) -> str:
         return self.name
