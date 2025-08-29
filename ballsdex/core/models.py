@@ -214,6 +214,9 @@ class Regime(models.Model):
 class Economy(models.Model):
     name = fields.CharField(max_length=64)
     icon = fields.CharField(max_length=200, description="512x512 PNG image")
+    emoji = fields.BigIntField(
+        description="Emoji ID for this economy", validators=[DiscordSnowflakeValidator()]
+    )
 
     def __str__(self):
         return self.name
