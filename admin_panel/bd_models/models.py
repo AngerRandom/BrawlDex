@@ -81,6 +81,7 @@ class TradeCooldownPolicy(models.IntegerChoices):
     BYPASS = 2
 
 class ItemType(models.IntegerChoices):
+    TEST = 0
     BRAWLER = 1
     SKIN = 2
     FANMADE_BRAWLER = 3
