@@ -138,6 +138,7 @@ class BallAdmin(admin.ModelAdmin):
                 "fields": [
                     "enabled",
                     "tradeable",
+                    "is_new",
                     "short_name",
                     "catch_names",
                     "translations",
