@@ -73,7 +73,7 @@ class RegimeAdmin(admin.ModelAdmin):
 
 @admin.register(Economy)
 class EconomyAdmin(admin.ModelAdmin):
-    list_display = ("name", "icon_image", "pk")
+    list_display = ("name", "icon_image", "emoji", "pk")
     search_fields = ("name",)
 
     @admin.display()
