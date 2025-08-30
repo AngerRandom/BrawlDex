@@ -222,17 +222,17 @@ class Special(models.Model):
         return self.name
 
 class ItemType(IntEnum):
-    BRAWLER = 0
-    SKIN = 1
-    FANMADE_BRAWLER = 4
-    FANMADE_SKIN = 5
-    CHINA_SKIN = 6
-    PRO_SKIN = 7
-    LIMITED_BRAWLER = 8
-    LIMITED_SKIN = 9
-    SILVER_TITLE = 10
-    GOLDEN_TITLE = 11
-    BLING_TITLE = 12
+    BRAWLER = 1
+    SKIN = 2
+    FANMADE_BRAWLER = 3
+    FANMADE_SKIN = 4
+    CHINA_SKIN = 5
+    PRO_SKIN = 6
+    LIMITED_BRAWLER = 7
+    LIMITED_SKIN = 8
+    SILVER_TITLE = 9
+    GOLDEN_TITLE = 10
+    BLING_TITLE = 11
     
 
 class Ball(models.Model):
