@@ -222,6 +222,7 @@ class Special(models.Model):
         return self.name
 
 class ItemType(IntEnum):
+    TEST = 0
     BRAWLER = 1
     SKIN = 2
     FANMADE_BRAWLER = 3
