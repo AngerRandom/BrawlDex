@@ -224,8 +224,6 @@ class Special(models.Model):
 class ItemType(IntEnum):
     BRAWLER = 0
     SKIN = 1
-    NEW_BRAWLER = 2
-    NEW_SKIN = 3
     FANMADE_BRAWLER = 4
     FANMADE_SKIN = 5
     CHINA_SKIN = 6
@@ -284,6 +282,10 @@ class Ball(models.Model):
     )
     tradeable = fields.BooleanField(
         default=True, description="Controls whether this ball can be traded or donated."
+    )
+    is_new = fields.BooleanField(
+        default=False,
+        description="Whether it's a new ball added"
     )
     emoji_id = fields.BigIntField(
         description="Emoji ID for this ball", validators=[DiscordSnowflakeValidator()]
@@ -515,7 +517,7 @@ class BallInstance(models.Model):
         EXCLUDED_ECONOMIES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16]
         if self.ball.regime.name in RARITY_EMOJIS.keys():
             rarity_emoji = interaction.client.get_emoji(RARITY_EMOJIS.get(self.ball.regime.name))
-        if self.countryball.item_type == ItemType.NEW_BRAWLER or self.ball.item_type == ItemType.NEW_SKIN:
+        if self.countryball.is_new:
             new_emoji = interaction.client.get_emoji(1387510759671595058)
         if self.ball.economy_id not in EXCLUDED_ECONOMIES:
             skin_theme = f"[{self.ball.economy.name}](https://brawldex.fandom.com/wiki/{self.ball.economy.name.replace(" ", "_")})"
