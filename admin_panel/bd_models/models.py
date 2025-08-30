@@ -81,19 +81,17 @@ class TradeCooldownPolicy(models.IntegerChoices):
     BYPASS = 2
 
 class ItemType(models.IntegerChoices):
-    BRAWLER = 0
-    SKIN = 1
-    NEW_BRAWLER = 2
-    NEW_SKIN = 3
-    FANMADE_BRAWLER = 4
-    FANMADE_SKIN = 5
-    CHINA_SKIN = 6
-    PRO_SKIN = 7
-    LIMITED_BRAWLER = 8
-    LIMITED_SKIN = 9
-    SILVER_TITLE = 10
-    GOLDEN_TITLE = 11
-    BLING_TITLE = 12
+    BRAWLER = 1
+    SKIN = 2
+    FANMADE_BRAWLER = 3
+    FANMADE_SKIN = 4
+    CHINA_SKIN = 5
+    PRO_SKIN = 6
+    LIMITED_BRAWLER = 7
+    LIMITED_SKIN = 8
+    SILVER_TITLE = 9
+    GOLDEN_TITLE = 10
+    BLING_TITLE = 11
     
 
 class Player(models.Model):
@@ -261,6 +259,10 @@ class Ball(models.Model):
     )
     enabled = models.BooleanField(
         help_text="Enables spawning and show in completion", default=True
+    )
+    is_new = models.BooleanField(
+        default=False,
+        help_text="Whether it's a new ball added"
     )
     short_name = models.CharField(
         max_length=24,
