@@ -12,30 +12,30 @@ log = logging.getLogger("ballsdex.packages.countryballs.extra_spawns")
 
 async def pay_to_win_spawner(self):
     channel = self.get_channel(1391136498769723432)
-    spawn_time = 0
-    spawn_amount = 0
-    boost_count = channel.guild.premium_subscription_count
-    if boost_count <= 15:
-      spawn_time = 15*60
-      spawn_amount = 1
-    elif boost_count == 16:
-      spawn_time = 14*60
-      spawn_amount = 1
-    elif boost_count == 17:
-      spawn_time = 13*60
-      spawn_amount = 2
-    elif boost_count == 18:
-      spawn_time = 12*60
-      spawn_amount = 2
-    elif boost_count == 19:
-      spawn_time = 11*60
-      spawn_amount = 2
-    elif boost_count >= 20:
-      spawn_time = 10*60
-      spawn_amount = 3
-    else:
-      pass
     while True:
+        spawn_time = 0
+        spawn_amount = 0
+        boost_count = channel.guild.premium_subscription_count
+        if boost_count <= 15:
+            spawn_time = 15*60
+            spawn_amount = 1
+        elif boost_count == 16:
+            spawn_time = 14*60
+            spawn_amount = 1
+        elif boost_count == 17:
+            spawn_time = 13*60
+            spawn_amount = 2
+        elif boost_count == 18:
+            spawn_time = 12*60
+            spawn_amount = 2
+        elif boost_count == 19:
+            spawn_time = 11*60
+            spawn_amount = 2
+        elif boost_count >= 20:
+            spawn_time = 10*60
+            spawn_amount = 3
+        else:
+            pass
         special_obj = ""
         options = [None, "Brawl Pass", "Brawl Pass Plus"]
         weights = [40, 40, 20]
@@ -57,30 +57,30 @@ async def pay_to_win_spawner(self):
 
 async def basic_spawner(self):
     channel = self.get_channel(1295410565765922862)
-    spawn_time = 0
-    spawn_amount = 0
-    boost_count = channel.guild.premium_subscription_count
-    if boost_count <= 15:
-      spawn_time = 15*60
-      spawn_amount = 1
-    elif boost_count == 16:
-      spawn_time = 14*60
-      spawn_amount = 1
-    elif boost_count == 17:
-      spawn_time = 13*60
-      spawn_amount = 2
-    elif boost_count == 18:
-      spawn_time = 12*60
-      spawn_amount = 2
-    elif boost_count == 19:
-      spawn_time = 11*60
-      spawn_amount = 2
-    elif boost_count >= 20:
-      spawn_time = 10*60
-      spawn_amount = 3
-    else:
-      pass
     while True:
+        spawn_time = 0
+        spawn_amount = 0
+        boost_count = channel.guild.premium_subscription_count
+        if boost_count <= 15:
+            spawn_time = 15*60
+            spawn_amount = 1
+        elif boost_count == 16:
+            spawn_time = 14*60
+            spawn_amount = 1
+        elif boost_count == 17:
+            spawn_time = 13*60
+            spawn_amount = 2
+        elif boost_count == 18:
+            spawn_time = 12*60
+            spawn_amount = 2
+        elif boost_count == 19:
+            spawn_time = 11*60
+            spawn_amount = 2
+        elif boost_count >= 20:
+            spawn_time = 10*60
+            spawn_amount = 3
+        else:
+            pass
         try:
             for i in range(spawn_amount):
                 ball = await BallSpawnView.get_random(self)
