@@ -51,7 +51,7 @@ async def pay_to_win_spawner(self):
                 await ball.spawn(channel)
 
         except Exception as e:
-            log.error(f"An error occurred (P2W): {e}")
+            log.error(f"An error occurred (P2W)", exc_info=e)
 
         await asyncio.sleep(spawn_time)
 
@@ -87,6 +87,6 @@ async def basic_spawner(self):
                 await ball.spawn(channel)
 
         except Exception as e:
-            log.error(f"An error occurred (Basic): {e}")
+            log.error(f"An error occurred (Basic)", exc_info=e)
 
         await asyncio.sleep(spawn_time)
