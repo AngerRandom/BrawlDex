@@ -296,3 +296,8 @@ class Info(commands.Cog):
             f"> {player_obj.sdcount}{starrdrops_emoji}\n"
         )
         await interaction.response.send_message(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_message(self, message: discord.Message):
+        if message.content == self.bot.user.mention:
+            await message.channel.send("Do you need help?")
