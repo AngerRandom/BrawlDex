@@ -51,22 +51,30 @@ class GTNView(View):
 
       await self.message.edit(view=self)
       
-async def guess_the_number():
-  picked_number = random.choice(numbers)
-  await log_action(picked_number, bot)
+async def guess_the_number(
+    self, 
+    bot: "BallsDexBot",
+    channel: discord.TextChannel, 
+    spawn_amount: int,
+    number: int | None = None
+):
   view = GTNView()
-  view.message = await chn.send("Guess the number I picked and get a free Mass Spawn!\n-# You have a minute to guess. Click a button to make your guess, you can't revert back your decision once you picked a number.", view=view)
+  picked_number = number
+  if not picked_number:
+      picked_number = random.choice(view.numbers)
+  await log_action(picked_number, bot)
+  view.message = await channel.send("Guess the number I picked and get a free Mass Spawn!\n-# You have a minute to guess. Click a button to make your guess, you can't revert back your decision once you picked a number.", view=view)
   await asyncio.sleep(60)
   if view.counts:
     highest = max(view.counts, key=view.counts.get)
     if picked_number == int(highest):
-      await chn.send(f"You picked {highest}\nYou guessed it right! My guess was {picked_number}. Enjoy your reward!", reference=view.message)
-      await reward()
+      await channel.send(f"You picked {highest}\nYou guessed it right! My guess was {picked_number}. Enjoy your reward!", reference=view.message)
+      for i in range(spawn_amount):
+          cb = await BallSpawnView.get_random(bot)
+          await cb.spawn(channel)
     else:
-      await chn.send(f"You picked {highest}\nSorry, you guessed it wrong, my guess was {picked_number}. Better luck next time!", reference=view.message)
+      await channel.send(f"You picked {highest}\nSorry, you guessed it wrong, my guess was {picked_number}. Better luck next time!", reference=view.message)
       
   else:
-    await chn.send("Nobody made a guess, I think no one wants a reward.", reference=view.message)
+    await channel.send("Nobody made a guess, I think no one wants a reward.", reference=view.message)
     return
-  
-asyncio.create_task(guess_the_number())
