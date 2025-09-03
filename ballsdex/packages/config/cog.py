@@ -30,6 +30,9 @@ class Config(commands.GroupCog):
 
     @app_commands.command()
     @app_commands.describe(silent="Whether to hide wrong/caught messages or not")
+    @app_commands.describe(allow_chinese_skins="Enable this if you want to allow Chinese Skins spawning.")
+    @app_commands.describe(allow_fanmade_skins="Enable this if you want to allow Fanmade Skins spawning.")
+    @app_commands.describe(allow_fanmade_brawlers="Enable this if you want to allow Fanmade Brawlers spawning.")
     @app_commands.checks.has_permissions(manage_guild=True)
     @app_commands.checks.bot_has_permissions(
         read_messages=True,
@@ -41,6 +44,9 @@ class Config(commands.GroupCog):
         interaction: discord.Interaction["BallsDexBot"],
         channel: Optional[discord.TextChannel] = None,
         silent: bool = False,
+        allow_chinese_skins: bool = False,
+        allow_fanmade_skins: bool = False,
+        allow_fanmade_brawlers: bool = False,
     ):
         """
         Set or change the channel where countryballs will spawn.
@@ -61,7 +67,7 @@ class Config(commands.GroupCog):
                 )
                 return
 
-        view = AcceptTOSView(interaction, channel, user, silent)
+        view = AcceptTOSView(interaction, channel, user, silent, allow_chinese_skins, allow_fanmade_skins, allow_fanmade_brawlers)
         embed = activation_embed.copy()
 
         guild = interaction.guild
