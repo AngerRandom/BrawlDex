@@ -22,6 +22,9 @@ class AcceptTOSView(View):
         channel: discord.TextChannel,
         new_player: discord.Member,
         silent: bool,
+        chinese_skin_toggle: bool,
+        fanmade_skin_toggle: bool,
+        fanmade_brawler_toggle: bool,
     ):
         super().__init__()
         self.original_interaction = interaction
@@ -29,6 +32,9 @@ class AcceptTOSView(View):
         self.new_player = new_player
         self.message: Optional[discord.Message] = None
         self.silent = silent
+        self.chinese_skin_toggle = chinese_skin_toggle
+        self.fanmade_skin_toggle = fanmade_skin_toggle
+        self.fanmade_brawler_toggle = fanmade_brawler_toggle
 
         self.add_item(
             Button(
@@ -65,6 +71,9 @@ class AcceptTOSView(View):
         config.spawn_channel = self.channel.id  # type: ignore
         config.enabled = True
         config.silent = self.silent
+        config.chinese_skin_toggle = self.chinese_skin_toggle
+        config.fanmade_skin_toggle = self.fanmade_skin_toggle
+        config.fanmade_brawler_toggle = self.fanmade_brawler_toggle
         await config.save()
         interaction.client.dispatch(
             "ballsdex_settings_change", interaction.guild, channel=self.channel, enabled=True
