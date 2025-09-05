@@ -24,7 +24,7 @@ class Spawner(commands.Cog):
     self.basictask = None
     
     async def pay_to_win_spawner(self):
-        channel = self.bot.get_channel(1391136498769723432)
+        channel = self.bot.get_channel(1404082071433117788)
         while True:
             spawn_time = 0
             spawn_amount = 0
@@ -69,7 +69,7 @@ class Spawner(commands.Cog):
             await asyncio.sleep(spawn_time)
 
     async def basic_spawner(self):
-        channel = self.bot.get_channel(1295410565765922862)
+        channel = self.bot.get_channel(1404082071433117788)
         while True:
             spawn_time = 0
             spawn_amount = 0
