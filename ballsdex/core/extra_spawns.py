@@ -117,3 +117,23 @@ class Spawner(commands.Cog):
             log.info("Basic spawner is successfully enabled!")
         except Exception as e:
             log.critical("Failed to enable one of the extra spawns.", exc_info=e)
+
+    @app_commands.command(name="refresh_spawns", description="Restart and refresh the spawners!")
+    @app_commands.checks.has_any_role(*settings.root_role_ids)
+    async def refresh_spawners(self, interaction: discord.Interaction["BallsDexBot"]):
+        try:
+            self.p2wtask.cancel()
+            self.p2wtask = None
+            log.info("P2W spawner stopped by the command. Attempting to restart...")
+            self.p2wtask = asyncio.create_task(self.pay_to_win_spawner())
+            log.info("P2W spawner successfully restarted!")
+            self.basictask.cancel()
+            self.basictask = None
+            log.info("Basic spawner stopped by the command. Attempting to restart...")
+            self.basictask = asyncio.create_task(self.basic_spawner())
+            log.info("Basic spawner successfully restarted!")
+            await interaction.response.send_message("Done!", ephemeral=True)
+        except Exception as e:
+            log.critical("Failed to restart the spawns.", exc_info=e)
+            await intetaction.response.send_message("An error occurred. Please check the logs for more information.", ephemeral=True)
+            return
