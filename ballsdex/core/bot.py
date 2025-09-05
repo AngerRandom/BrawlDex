@@ -189,6 +189,7 @@ class BallsDexBot(commands.AutoShardedBot):
         self.catch_log: set[int] = set()
         self.command_log: set[int] = set()
         self.locked_balls = TTLCache(maxsize=99999, ttl=60 * 30)
+        self.operational = False
 
         self.owner_ids: set[int]
 
@@ -409,6 +410,7 @@ class BallsDexBot(commands.AutoShardedBot):
                 log.error("Failed to enable the Daily Catch Reset.", exc_info=True)
         else:
             log.warning("Daily Catch Reset is not enabled, you may need to reset the catches manually unless you enable it with '--enable-catch-reset' flag.")
+        self.operational = True
 
     async def blacklist_check(self, interaction: discord.Interaction[Self]) -> bool:
         if interaction.user.id in self.blacklist:
