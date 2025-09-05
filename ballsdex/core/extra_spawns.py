@@ -106,17 +106,17 @@ class Spawner(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-      while not self.bot.operational:
-        pass
-      else:
-        log.info("Attempting to enable the extra spawns...")
-        try:
-            self.p2wtask = asyncio.create_task(self.pay_to_win_spawner())
-            log.info("P2W spawner is successfully enabled!")
-            self.basictask = asyncio.create_task(self.basic_spawner(self))
-            log.info("Basic spawner is successfully enabled!")
-        except Exception as e:
-            log.critical("Failed to enable one of the extra spawns.", exc_info=e)
+        while not self.bot.operational:
+            pass
+        else:
+            log.info("Attempting to enable the extra spawns...")
+            try:
+                self.p2wtask = asyncio.create_task(self.pay_to_win_spawner())
+                log.info("P2W spawner is successfully enabled!")
+                self.basictask = asyncio.create_task(self.basic_spawner(self))
+                log.info("Basic spawner is successfully enabled!")
+            except Exception as e:
+                log.critical("Failed to enable one of the extra spawns.", exc_info=e)
 
     @app_commands.command(name="refresh_spawns", description="Restart and refresh the spawners!")
     @app_commands.checks.has_any_role(*settings.root_role_ids)
