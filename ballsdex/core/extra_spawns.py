@@ -7,10 +7,11 @@ from discord.ext import commands
 from discord import app_commands
 from ballsdex.settings import settings
 from ballsdex.core.models import Ball, Special
+from ballsdex.packages.countryballs.countryball import BallSpawnView
 
 if TYPE_CHECKING:
   from ballsdex.core.bot import BallsDexBot
-  from ballsdex.packages.countryballs.countryball import BallSpawnView
+
 
 log = logging.getLogger("ballsdex.packages.countryballs.extra_spawns")
 
@@ -58,7 +59,7 @@ class Spawner(commands.Cog):
                 special_obj = await Special.get(name=str(picked_special))
             try:
                 for i in range(spawn_amount):
-                    ball = await BallSpawnView.get_random(self)
+                    ball = await BallSpawnView.get_random(self.bot)
                     ball.special = special_obj
                     await ball.spawn(channel)
 
@@ -68,7 +69,7 @@ class Spawner(commands.Cog):
             await asyncio.sleep(spawn_time)
 
     async def basic_spawner(self):
-        channel = self.get_channel(1295410565765922862)
+        channel = self.bot.get_channel(1295410565765922862)
         while True:
             spawn_time = 0
             spawn_amount = 0
@@ -95,10 +96,14 @@ class Spawner(commands.Cog):
                 pass
             try:
                 for i in range(spawn_amount):
-                    ball = await BallSpawnView.get_random(self)
+                    ball = await BallSpawnView.get_random(self.bot)
                     await ball.spawn(channel)
 
             except Exception as e:
                 log.error(f"An error occurred (Basic)", exc_info=e)
 
             await asyncio.sleep(spawn_time)
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+      
