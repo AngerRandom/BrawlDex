@@ -13,7 +13,7 @@ if TYPE_CHECKING:
   from ballsdex.core.bot import BallsDexBot
 
 
-log = logging.getLogger("ballsdex.packages.countryballs.extra_spawns")
+log = logging.getLogger("ballsdex.core.extra_spawns")
 
 @app_commands.guilds(*settings.admin_guild_ids)
 @app_commands.default_permissions(administrator=True)
@@ -106,4 +106,14 @@ class Spawner(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-      
+      while not self.bot.operational:
+        pass
+      else:
+        log.info("Attempting to enable the extra spawns...")
+        try:
+            self.p2wtask = asyncio.create_task(self.pay_to_win_spawner())
+            log.info("P2W spawner is successfully enabled!")
+            self.basictask = asyncio.create_task(self.basic_spawner(self))
+            log.info("Basic spawner is successfully enabled!")
+        except Exception as e:
+            log.critical("Failed to enable one of the extra spawns.", exc_info=e)
