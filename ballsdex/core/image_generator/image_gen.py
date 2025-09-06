@@ -18,7 +18,7 @@ HEIGHT = 2000
 RECTANGLE_WIDTH = WIDTH - 40
 RECTANGLE_HEIGHT = (HEIGHT // 5) * 2
 
-CORNERS = ((39, 252), (1392, 982))
+CORNERS = ((34, 261), (1393, 992))
 artwork_size = [b - a for a, b in zip(*CORNERS)]
 
 # ===== TIP =====
@@ -230,6 +230,7 @@ def draw_card(
     artwork.close()
 
     return image, {"format": "PNG"}
+
 
 
 
