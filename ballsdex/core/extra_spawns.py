@@ -137,3 +137,6 @@ class Spawner(commands.Cog):
             log.critical("Failed to restart the spawns.", exc_info=e)
             await intetaction.response.send_message("An error occurred. Please check the logs for more information.", ephemeral=True)
             return
+
+async def setup(self, bot: "BallsDexBot"):
+    await bot.add_cog(Spawner(bot))
