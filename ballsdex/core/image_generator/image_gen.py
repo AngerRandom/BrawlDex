@@ -18,7 +18,7 @@ HEIGHT = 2000
 RECTANGLE_WIDTH = WIDTH - 40
 RECTANGLE_HEIGHT = (HEIGHT // 5) * 2
 
-CORNERS = ((34, 261), (1393, 992))
+CORNERS = ((39, 252), (1392, 982))
 artwork_size = [b - a for a, b in zip(*CORNERS)]
 
 # ===== TIP =====
@@ -222,6 +222,12 @@ def draw_card(
     artwork = Image.open(media_path + ball.collection_card).convert("RGBA")
     image.paste(ImageOps.fit(artwork, artwork_size), CORNERS[0])
 
+    hp_icon = Image.open(fr"{media_path}/HPICON.png").convert("RGBA")
+    image.paste(ImageOps.fit(hp_icon, (116, 97), 
+
+    atk_icon = Image.open(fr"{media_path}/ATKICON.png").convert("RGBA")
+    image.paste(ImageOps.fit(atk_icon, (116, 118),
+
     # Icon
     if icon:
         icon = ImageOps.fit(icon, (192, 192))
@@ -230,4 +236,5 @@ def draw_card(
     artwork.close()
 
     return image, {"format": "PNG"}
+
 
