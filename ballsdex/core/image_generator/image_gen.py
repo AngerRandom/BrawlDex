@@ -222,24 +222,15 @@ def draw_card(
     artwork = Image.open(media_path + ball.collection_card).convert("RGBA")
     image.paste(ImageOps.fit(artwork, artwork_size), CORNERS[0])
 
-    hp_icon = Image.open(fr"{SOURCES_PATH}/HPICON.png").convert("RGBA")
-    hp_icon_fitted = ImageOps.fit(hp_icon, (116, 97), method=Image.Resampling.LANCZOS)
-    image.paste(hp_icon_fitted, (242, 1751), hp_icon_fitted)
-
-    atk_icon = Image.open(fr"{SOURCES_PATH}/ATKICON.png").convert("RGBA")
-    atk_icon_fitted = ImageOps.fit(atk_icon, (116, 118), method=Image.Resampling.LANCZOS)
-    image.paste(atk_icon_fitted, (974, 1747), atk_icon_fitted)
-
     # Icon
     if icon:
         icon = ImageOps.fit(icon, (192, 192))
         image.paste(icon, (1200, 30), mask=icon)
         icon.close()
     artwork.close()
-    hp_icon.close()
-    atk_icon.close()
 
     return image, {"format": "PNG"}
+
 
 
 
