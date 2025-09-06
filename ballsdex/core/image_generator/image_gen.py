@@ -223,10 +223,12 @@ def draw_card(
     image.paste(ImageOps.fit(artwork, artwork_size), CORNERS[0])
 
     hp_icon = Image.open(fr"{SOURCES_PATH}/HPICON.png").convert("RGBA")
-    image.paste(ImageOps.fit(hp_icon, (116, 97), (242, 1751)))
+    hp_icon_fitted = ImageOps.fit(hp_icon, (116, 97), method=Image.Resampling.LANCZOS)
+    image.paste(hp_icon_fitted, (242, 1751), hp_icon_fitted)
 
     atk_icon = Image.open(fr"{SOURCES_PATH}/ATKICON.png").convert("RGBA")
-    image.paste(ImageOps.fit(atk_icon, (116, 118), (974, 1747)))
+    atk_icon_fitted = ImageOps.fit(atk_icon, (116, 118), method=Image.Resampling.LANCZOS)
+    image.paste(atk_icon_fitted, (974, 1747), atk_icon_fitted)
 
     # Icon
     if icon:
@@ -238,6 +240,7 @@ def draw_card(
     atk_icon.close()
 
     return image, {"format": "PNG"}
+
 
 
 
