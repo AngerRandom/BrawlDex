@@ -107,7 +107,7 @@ class Spawner(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         while not self.bot.operational:
-            pass
+            await asyncio.sleep(0.1)
         else:
             log.info("Attempting to enable the extra spawns...")
             try:
