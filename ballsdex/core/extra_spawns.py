@@ -138,5 +138,5 @@ class Spawner(commands.Cog):
             await intetaction.response.send_message("An error occurred. Please check the logs for more information.", ephemeral=True)
             return
 
-async def setup(self, bot: "BallsDexBot"):
+async def setup(bot: "BallsDexBot"):
     await bot.add_cog(Spawner(bot))
