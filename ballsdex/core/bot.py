@@ -180,7 +180,6 @@ class BallsDexBot(commands.AutoShardedBot):
         self.blacklist_guild: set[int] = set()
         self.catch_log: set[int] = set()
         self.command_log: set[int] = set()
-        self.operational = False
         self.locked_balls = TTLCache(maxsize=99999, ttl=60 * 30)
 
         self.owner_ids: set[int]
@@ -402,7 +401,15 @@ class BallsDexBot(commands.AutoShardedBot):
                 log.error("Failed to enable the Daily Catch Reset.", exc_info=True)
         else:
             log.warning("Daily Catch Reset is not enabled, you may need to reset the catches manually unless you enable it with '--enable-catch-reset' flag.")
-        self.operational = True
+        from ballsdex.packages.countryballs.extra_spawns import pay_to_win_spawner, basic_spawner
+        log.info("Attempting to enable the extra spawns...")
+        try:
+            asyncio.create_task(pay_to_win_spawner(self))
+            log.info("P2W spawner is successfully enabled!")
+            asyncio.create_task(basic_spawner(self))
+            log.info("Basic spawner is successfully enabled!")
+        except Exception as e:
+            log.critical("Failed to enable one of the extra spawns.", exc_info=e)
             
 
     async def blacklist_check(self, interaction: discord.Interaction[Self]) -> bool:
