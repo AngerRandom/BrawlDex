@@ -8,9 +8,7 @@ from discord import app_commands
 from ballsdex.settings import settings
 from ballsdex.core.models import Ball, Special
 from ballsdex.packages.countryballs.countryball import BallSpawnView
-
-if TYPE_CHECKING:
-  from ballsdex.core.bot import BallsDexBot
+from ballsdex.core.bot import BallsDexBot
 
 
 log = logging.getLogger("ballsdex.core.extra_spawns")
@@ -18,7 +16,7 @@ log = logging.getLogger("ballsdex.core.extra_spawns")
 @app_commands.guilds(*settings.admin_guild_ids)
 @app_commands.default_permissions(administrator=True)
 class Spawner(commands.Cog):
-  def __init__(self, bot: "BallsDexBot"):
+  def __init__(self, bot: BallsDexBot):
     self.bot = bot
     self.p2wtask = None
     self.basictask = None
@@ -120,7 +118,7 @@ class Spawner(commands.Cog):
 
     @app_commands.command(name="refresh_spawns", description="Restart and refresh the spawners!")
     @app_commands.checks.has_any_role(*settings.root_role_ids)
-    async def refresh_spawners(self, interaction: discord.Interaction["BallsDexBot"]):
+    async def refresh_spawners(self, interaction: discord.Interaction[BallsDexBot]):
         try:
             self.p2wtask.cancel()
             self.p2wtask = None
