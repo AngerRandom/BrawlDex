@@ -118,7 +118,7 @@ class Spawner(commands.Cog):
 
     @app_commands.command(name="refresh_spawns", description="Restart and refresh the spawners!")
     @app_commands.checks.has_any_role(*settings.root_role_ids)
-    async def refresh_spawners(self, interaction: discord.Interaction[BallsDexBot]):
+    async def refresh_spawners(self, interaction: discord.Interaction["BallsDexBot"]):
         try:
             self.p2wtask.cancel()
             self.p2wtask = None
